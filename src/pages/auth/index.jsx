@@ -1,3 +1,27 @@
+import Swal from "sweetalert2";
+import { useState } from "react";
+import { useForm } from "react-hook-form";
+import { useNavigate } from "react-router-dom";
+import { LayoutLogin } from "@/components/card-login";
+import { login, loginSchema } from "@/utils/api/auth";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { ButtonClick } from "@/components/ui/button";
+import { InputLabel } from "@/components/input-with-label";
+import iconEyeOpen from "@/assets/logo/icon-eye-open.svg";
+import iconEyeClose from "@/assets/logo/icon-eye-close.svg";
+import { useAuth } from "@/utils/context/auth-context";
+
+const Toast = Swal.mixin({
+  toast: true,
+  position: "top-end",
+  showConfirmButton: false,
+  timer: 5000,
+  didOpen: (toast) => {
+    toast.onmouseenter = Swal.stopTimer;
+    toast.onmouseleave = Swal.resumeTimer;
+  },
+});
+
 function Login() {
   const navigate = useNavigate();
   const { login: contextLogin } = useAuth();
