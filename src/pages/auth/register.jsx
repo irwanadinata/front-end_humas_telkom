@@ -2,10 +2,9 @@ import Swal from "sweetalert2";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
-import { LayoutLogin } from "@/pages/auth/components/layout";
+import { Layout } from "@/pages/auth/components/layout";
 import { Link } from "react-router-dom";
-import { login, loginSchema } from "@/utils/api/auth";
-import { register,registerSchema } from "@/utils/api/auth";
+import { register, registerSchema } from "@/utils/api/auth";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Button } from "@/components/ui/button"
 import { InputLabel } from "@/components/ui/input-with-label";
@@ -34,18 +33,17 @@ function Register() {
     formState: { errors },
     register,
   } = useForm({
-    resolver: zodResolver(loginSchema),
+    resolver: zodResolver(registerSchema),
   });
 
-  async function handleLogin(data) {
-    const { email, password } = data;
-
+  async function handleRegister(data) {
+    const { name, email, password } = data;
     try {
-      const response = await register(email, password);
-      Toast.fire({ icon: "success", title: "Daftar Akun Berhasil" });
-      navigate("/")
+      await register(name, email, password);
+      Toast.fire({ icon: "success", title: "Daftar Akun Berhasil, <br/> Silahkan Login" });
+      navigate("/");
     } catch (error) {
-      setErrorMessage(error.message);
+      setErrorMessage(error?.response?.data?.message);
     }
   }
 
@@ -55,15 +53,26 @@ function Register() {
   };
 
   return (
-    <LayoutLogin label="Layanan HUMAS - Register">
-      <form aria-label="form-input" onSubmit={handleSubmit(handleLogin)}>
+    <Layout label="Layanan HUMAS - Register">
+      <form aria-label="form-input" onSubmit={handleSubmit(handleRegister)}>
+        <InputLabel
+          id="name"
+          aria-label="name"
+          label="Nama"
+          type="text"
+          isLogin={true}
+          placeholder="Masukkan nama"
+          name="name"
+          register={register}
+          error={errors.name?.message}
+        />
         <InputLabel
           id="email"
           aria-label="email"
           label="Email"
           type="text"
           isLogin={true}
-          placeholder="Masukkan email anda"
+          placeholder="Masukkan email"
           name="email"
           register={register}
           error={errors.email?.message}
@@ -77,7 +86,7 @@ function Register() {
             isLogin={true}
             aria-label="password"
             type={showPassword ? "text" : "password"}
-            placeholder="Masukkan password anda"
+            placeholder="Masukkan password"
             name="password"
             register={register}
             error={errors.password?.message}
@@ -85,7 +94,7 @@ function Register() {
           <img
             src={changeIcon ? iconEyeOpen : iconEyeClose}
             alt="iconeye"
-            className="absolute right-[3%] top-[-6%] translate-y-[100%] cursor-pointer"
+            className="absolute right-[3%] top-[50%] translate-y-[-50%] cursor-pointer"
             onClick={toggleShowPassword}
           />
         </div>
@@ -98,9 +107,7 @@ function Register() {
         <Button
           id="btn-submit"
           aria-label="btn-submit-form"
-          label="Login"
           className="w-full h-[3 rem] bg-[#bf131d] hover:bg-[#a8393b] text-white mb-3"
-          Login
         >Register
         </Button>
       </form>
@@ -109,7 +116,7 @@ function Register() {
           {errorMessage}
         </p>
       )}
-    </LayoutLogin>
+    </Layout>
   );
 }
 

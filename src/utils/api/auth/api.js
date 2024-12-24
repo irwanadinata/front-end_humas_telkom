@@ -13,17 +13,14 @@ export const login = async (email, password) => {
 };
 
 export const register = async (
-  fullname,
+  name,
   email,
   password
 ) => {
   try {
     const response = await axiosWithConfig.post("/auth/register", {
-      fullname,
-      from_school,
-      graduation_year,
+      name,
       email,
-      username,
       password,
     });
     console.log(response);
