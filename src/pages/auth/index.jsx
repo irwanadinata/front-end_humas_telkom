@@ -2,7 +2,7 @@ import Swal from "sweetalert2";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
-import { LayoutLogin } from "@/pages/auth/components/layout";
+import { Layout } from "@/pages/auth/components/layout";
 import { Link } from "react-router-dom";
 import { login, loginSchema } from "@/utils/api/auth";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -65,7 +65,7 @@ function Login() {
   };
 
   return (
-    <LayoutLogin label="Layanan HUMAS - Login">
+    <Layout label="Layanan HUMAS - Login">
       <form aria-label="form-input" onSubmit={handleSubmit(handleLogin)}>
         <InputLabel
           id="email"
@@ -73,7 +73,7 @@ function Login() {
           label="Email"
           type="text"
           isLogin={true}
-          placeholder="Masukkan email anda"
+          placeholder="Masukkan email"
           name="email"
           register={register}
           error={errors.email?.message}
@@ -87,7 +87,7 @@ function Login() {
             isLogin={true}
             aria-label="password"
             type={showPassword ? "text" : "password"}
-            placeholder="Masukkan password anda"
+            placeholder="Masukkan password"
             name="password"
             register={register}
             error={errors.password?.message}
@@ -95,7 +95,7 @@ function Login() {
           <img
             src={changeIcon ? iconEyeOpen : iconEyeClose}
             alt="iconeye"
-            className="absolute right-[3%] top-[-6%] translate-y-[100%] cursor-pointer"
+            className="absolute right-[3%] top-[50%] translate-y-[-50%] cursor-pointer"
             onClick={toggleShowPassword}
           />
         </div>
@@ -108,9 +108,7 @@ function Login() {
         <Button
           id="btn-submit"
           aria-label="btn-submit-form"
-          label="Login"
           className="w-full h-[3 rem] bg-[#bf131d] hover:bg-[#a8393b] text-white mb-3"
-          Login
         >Login
         </Button>
       </form>
@@ -119,7 +117,7 @@ function Login() {
           {errorMessage}
         </p>
       )}
-    </LayoutLogin>
+    </Layout>
   );
 }
 

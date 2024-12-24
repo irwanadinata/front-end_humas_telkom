@@ -12,10 +12,12 @@ export const loginSchema = z.object({
 });
 
 export const registerSchema = z.object({
-  nama: z
+  name: z
     .string()
     .min(1, { message: "Nama tidak boleh kosong" })
-    .regex(/^[a-zA-Z\s]*$/, { message: "Nama hanya boleh berisi huruf dan spasi" }),
+    .regex(/^[a-zA-Z\s]*$/, {
+      message: "Nama hanya boleh berisi huruf dan spasi",
+    }),
   email: z
     .string()
     .min(1, { message: "Email tidak boleh kosong" })
