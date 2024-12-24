@@ -1,5 +1,6 @@
 import { NavLink } from "react-router-dom";
 import { House, Newspaper, Handshake, Cctv, Printer } from "lucide-react";
+import logotelu1 from "@/assets/logo/telu-logo1.png"
 
 function Sidebar({ isOpen }) {
   return (
@@ -10,7 +11,7 @@ function Sidebar({ isOpen }) {
       } h-screen bg-white shadow-xl duration-300`}
     >
       <div className="flex justify-center items-center py-5 mb-5">
-        {/* <img src={simabalogo} style={{ width: "80px" }} alt="Simaba Logo" /> */}
+        <img src={logotelu1} style={{ width: "80px" }} alt="Tel-U Logo" />
       </div>
       <ul className={`flex flex-col ${isOpen && "gap-4"}`}>
         <li>

@@ -1,4 +1,4 @@
-import { login } from "./api";
-import { loginSchema } from "./schema";
+import { login, register } from "./api";
+import { loginSchema, registerSchema } from "./schema";
 
-export {login, loginSchema};
+export {login, register, loginSchema, registerSchema};

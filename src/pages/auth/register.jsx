@@ -5,12 +5,12 @@ import { useNavigate } from "react-router-dom";
 import { LayoutLogin } from "@/pages/auth/components/layout";
 import { Link } from "react-router-dom";
 import { login, loginSchema } from "@/utils/api/auth";
+import { register,registerSchema } from "@/utils/api/auth";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Button } from "@/components/ui/button"
 import { InputLabel } from "@/components/ui/input-with-label";
 import iconEyeOpen from "@/assets/icon/icon-eye-open.svg";
 import iconEyeClose from "@/assets/icon/icon-eye-close.svg";
-import { useAuth } from "@/utils/context/auth-context";
 
 const Toast = Swal.mixin({
   toast: true,
@@ -23,9 +23,8 @@ const Toast = Swal.mixin({
   },
 });
 
-function Login() {
+function Register() {
   const navigate = useNavigate();
-  const { login: contextLogin } = useAuth();
   const [changeIcon, setChangeIcon] = useState(false);
   const [errorMessage, setErrorMessage] = useState(null);
   const [showPassword, setShowPassword] = useState(false);
@@ -42,18 +41,9 @@ function Login() {
     const { email, password } = data;
 
     try {
-      const response = await login(email, password);
-      const token = response.token;
-      const role = response.role;
-      Toast.fire({ icon: "success", title: "Login berhasil" });
-      contextLogin(token);
-      if (role === "admin") {
-        navigate("/admin/dashboard");
-      } else if (role === "user") {
-        navigate("/user/dashboard");
-      } else {
-        navigate("/");
-      }
+      const response = await register(email, password);
+      Toast.fire({ icon: "success", title: "Daftar Akun Berhasil" });
+      navigate("/")
     } catch (error) {
       setErrorMessage(error.message);
     }
@@ -65,7 +55,7 @@ function Login() {
   };
 
   return (
-    <LayoutLogin label="Layanan HUMAS - Login">
+    <LayoutLogin label="Layanan HUMAS - Register">
       <form aria-label="form-input" onSubmit={handleSubmit(handleLogin)}>
         <InputLabel
           id="email"
@@ -100,9 +90,9 @@ function Login() {
           />
         </div>
         <div className="flex justify-end mb-4">
-          <p className="text-sm">Belum memiliki akun? {" "}
-            <Link to="/register" className="text-blue-500 hover:underline">
-              Register
+          <p className="text-sm">Sudah Memiliki akun? {" "}
+            <Link to="/" className="text-blue-500 hover:underline">
+              Login
             </Link></p>
         </div>
         <Button
@@ -111,7 +101,7 @@ function Login() {
           label="Login"
           className="w-full h-[3 rem] bg-[#bf131d] hover:bg-[#a8393b] text-white mb-3"
           Login
-        >Login
+        >Register
         </Button>
       </form>
       {errorMessage && (
@@ -123,4 +113,4 @@ function Login() {
   );
 }
 
-export default Login;
+export default Register;
