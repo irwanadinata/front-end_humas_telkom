@@ -24,7 +24,7 @@ function Sidebar({ isOpen }) {
           </p>
           <NavLink
             id="navigate-to-dashboard"
-            to="/dashboard"
+            to="/admin/dashboard"
             className={({ isActive }) =>
               `text-slate-400 text-sm cursor-pointer h-14 flex hover:bg-slate-200 ${
                 isActive ? "bg-[#E5E9F4]" : ""
@@ -34,18 +34,18 @@ function Sidebar({ isOpen }) {
             {({ isActive }) => (
               <div
                 className={`flex w-full py-2 self-center gap-3 border-l-[5px] ${
-                  isActive ? "border-[#293066]" : "border-transparent"
+                  isActive ? "border-[#bf131d]" : "border-transparent"
                 } ${!isOpen ? "justify-center" : "gap-2"}`}
               >
                 <House
                   className={`w-5 h-5 ${isOpen ? "ms-3" : "ms-[-5px]"} ${
-                    isActive ? "text-[#293066]" : "text-[#4B4B4B99]"
+                    isActive ? "text-[#bf131d]" : "text-[#4B4B4B99]"
                   }`}
                 />
                 <span
                   className={`font-bold whitespace-nowrap ${
                     !isOpen && "hidden"
-                  } ${isActive ? "text-[#293066]" : "text-[#4B4B4B99]"}`}
+                  } ${isActive ? "text-[#bf131d]" : "text-[#4B4B4B99]"}`}
                 >
                   Dashboard
                 </span>
@@ -60,11 +60,11 @@ function Sidebar({ isOpen }) {
               !isOpen && "hidden"
             }`}
           >
-            MENU
+            LAYANAN
           </p>
           <NavLink
             id="navigate-to-liputan-kegiatan"
-            to="/liputan-kegiatan"
+            to="/admin/liputan-kegiatan"
             className={({ isActive }) =>
               `text-slate-400 text-sm cursor-pointer h-14 flex hover:bg-slate-200 ${
                 isActive ? "bg-[#E5E9F4]" : ""
@@ -74,18 +74,18 @@ function Sidebar({ isOpen }) {
             {({ isActive }) => (
               <div
                 className={`flex w-full py-2 self-center gap-3 border-l-[5px] ${
-                  isActive ? "border-[#293066]" : "border-transparent"
+                  isActive ? "border-[#bf131d]" : "border-transparent"
                 } ${!isOpen ? "justify-center" : "gap-2"}`}
               >
                 <Cctv
                   className={`w-5 h-5 ${isOpen ? "ms-3" : "ms-[-5px]"} ${
-                    isActive ? "text-[#293066]" : "text-[#4B4B4B99]"
+                    isActive ? "text-[#bf131d]" : "text-[#4B4B4B99]"
                   }`}
                 />
                 <span
                   className={`font-bold whitespace-nowrap ${
                     !isOpen && "hidden"
-                  } ${isActive ? "text-[#293066]" : "text-[#4B4B4B99]"}`}
+                  } ${isActive ? "text-[#bf131d]" : "text-[#4B4B4B99]"}`}
                 >
                   Liputan Kegiatan
                 </span>
@@ -94,7 +94,7 @@ function Sidebar({ isOpen }) {
           </NavLink>
           <NavLink
             id="navigate-to-berita"
-            to="penerbitan-berita"
+            to="/admin/penerbitan-berita"
             className={({ isActive }) =>
               `text-slate-400 text-sm cursor-pointer h-14 flex hover:bg-slate-200 ${
                 isActive ? "bg-[#E5E9F4]" : ""
@@ -104,18 +104,18 @@ function Sidebar({ isOpen }) {
             {({ isActive }) => (
               <div
                 className={`flex w-full py-2 self-center gap-3 border-l-[5px] ${
-                  isActive ? "border-[#293066]" : "border-transparent"
+                  isActive ? "border-[#bf131d]" : "border-transparent"
                 } ${!isOpen ? "justify-center" : "gap-2"}`}
               >
                 <Newspaper
                   className={`w-5 h-5 ${isOpen ? "ms-3" : "ms-[-5px]"} ${
-                    isActive ? "text-[#293066]" : "text-[#4B4B4B99]"
+                    isActive ? "text-[#bf131d]" : "text-[#4B4B4B99]"
                   }`}
                 />
                 <span
                   className={`font-bold whitespace-nowrap ${
                     !isOpen && "hidden"
-                  } ${isActive ? "text-[#293066]" : "text-[#4B4B4B99]"}`}
+                  } ${isActive ? "text-[#bf131d]" : "text-[#4B4B4B99]"}`}
                 >
                   Penerbitan Berita
                 </span>
@@ -124,7 +124,7 @@ function Sidebar({ isOpen }) {
           </NavLink>
           <NavLink
             id="navigate-to-peminjaman-alat"
-            to="/peminjaman-alat"
+            to="/admin/peminjaman-alat"
             className={({ isActive }) =>
               `text-slate-400 text-sm cursor-pointer h-14 flex hover:bg-slate-200 ${
                 isActive ? "bg-[#E5E9F4]" : ""
@@ -134,18 +134,18 @@ function Sidebar({ isOpen }) {
             {({ isActive }) => (
               <div
                 className={`flex w-full py-2 self-center gap-3 border-l-[5px] ${
-                  isActive ? "border-[#293066]" : "border-transparent"
+                  isActive ? "border-[#bf131d]" : "border-transparent"
                 } ${!isOpen ? "justify-center" : "gap-2"}`}
               >
                 <Printer
                   className={`w-5 h-5 ${isOpen ? "ms-3" : "ms-[-5px]"} ${
-                    isActive ? "text-[#293066]" : "text-[#4B4B4B99]"
+                    isActive ? "text-[#bf131d]" : "text-[#4B4B4B99]"
                   }`}
                 />
                 <span
                   className={`font-bold whitespace-nowrap ${
                     !isOpen && "hidden"
-                  } ${isActive ? "text-[#293066]" : "text-[#4B4B4B99]"}`}
+                  } ${isActive ? "text-[#bf131d]" : "text-[#4B4B4B99]"}`}
                 >
                   Peminjaman Alat
                 </span>
@@ -154,7 +154,7 @@ function Sidebar({ isOpen }) {
           </NavLink>
           <NavLink
             id="navigate-to-kemitraan"
-            to="/kemitraan"
+            to="/admin/kemitraan"
             className={({ isActive }) =>
               `text-slate-400 text-sm cursor-pointer h-14 flex hover:bg-slate-200 ${
                 isActive ? "bg-[#E5E9F4]" : ""
@@ -164,18 +164,18 @@ function Sidebar({ isOpen }) {
             {({ isActive }) => (
               <div
                 className={`flex w-full py-2 self-center gap-3 border-l-[5px] ${
-                  isActive ? "border-[#293066]" : "border-transparent"
+                  isActive ? "border-[#bf131d]" : "border-transparent"
                 } ${!isOpen ? "justify-center" : "gap-2"}`}
               >
                 <Handshake
                   className={`w-5 h-5 ${isOpen ? "ms-3" : "ms-[-5px]"} ${
-                    isActive ? "text-[#293066]" : "text-[#4B4B4B99]"
+                    isActive ? "text-[#bf131d]" : "text-[#4B4B4B99]"
                   }`}
                 />
                 <span
                   className={`font-bold whitespace-nowrap ${
                     !isOpen && "hidden"
-                  } ${isActive ? "text-[#293066]" : "text-[#4B4B4B99]"}`}
+                  } ${isActive ? "text-[#bf131d]" : "text-[#4B4B4B99]"}`}
                 >
                   Kemitraan
                 </span>

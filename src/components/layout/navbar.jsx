@@ -29,7 +29,7 @@ function Navbar() {
 
 
   return (
-    <div className="sticky top-0 z-10 h-16 bg-[#293066] flex items-center justify-between shadow-md px-8">
+    <div className="sticky top-0 z-10 h-16 bg-[#bf131d] flex items-center justify-between shadow-md px-8">
       <Menu className="w-7 h-7 cursor-pointer" onClick={toggleSidebar}/>
       <DropdownMenu>
         <DropdownMenuTrigger
