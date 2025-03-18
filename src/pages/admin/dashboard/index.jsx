@@ -7,7 +7,7 @@ import Layout from "@/components/layout/layout";
 // import { useEffect, useState } from "react";
 // import { getTotalDataUser,getTotalDataQuestions, getTotalDataRanking } from "@/utils/api/dashboard";
 
-function Dashboard() {
+function DashboardAdmin() {
 //   const [loading, setLoading] = useState(true);
 //   const [totalDataUser, setTotalDataUser] = useState(0);
 //   const [totalDataQuestions, setTotalDataQuestions] = useState(0);
@@ -74,4 +74,4 @@ function Dashboard() {
   );
 }
 
-export default Dashboard;
+export default DashboardAdmin;
