@@ -7,12 +7,13 @@ import Register from "@/pages/auth/register";
 import DashboardAdmin from "@/pages/admin/dashboard/index";
 // import Kemitraan from "@/pages/admin/kemitraan/index";
 import LiputanKegiatan from "@/pages/admin/liputan-kegiatan/index"
-// import PeminjamanAlat from "@/pages/admin/peminjaman-alat/index"
+import PeminjamanAlat from "@/pages/admin/peminjaman-alat/index"
 import PenerbitanBerita from "@/pages/admin/penerbitan-berita/index"
 import DetailLiputanKegiatan from "@/pages/admin/liputan-kegiatan/detail-liputan-kegiatan";
 import DashboardUser from "@/pages/user/dashboard";
 import NotFound from "@/pages/404/index"
 import DetailPenerbitanBerita from "@/pages/admin/penerbitan-berita/detail-penerbitan-berita";
+import DetailPeminjamanAlat from "@/pages/admin/peminjaman-alat/detail-peminjaman-alat";
 
 export default function Router() {
   const router = createBrowserRouter([
@@ -72,22 +73,18 @@ export default function Router() {
     //       <AddUser />
     //   ),
     // },
-    // {
-    //   path: "admin/peminjaman-alat",
-    //   element: (
-    //     <ProtectedRoute>
-    //       <PeminjamanAlat />
-    //     </ProtectedRoute>
-    //   ),
-    // },
-    // {
-    //   path: "admin/peminjaman-alat/:id",
-    //   element: (
-    //     <ProtectedRoute>
-    //       <DetailQuestion />
-    //     </ProtectedRoute>
-    //   ),
-    // },
+    {
+      path: "admin/peminjaman-alat",
+      element: (  
+          <PeminjamanAlat />
+      ),
+    },
+    {
+      path: "admin/peminjaman-alat/:id",
+      element: (  
+          <DetailPeminjamanAlat />
+      ),
+    },
     // {
     //   path: "admin/peminjaman-alat/create",
     //   element: (
