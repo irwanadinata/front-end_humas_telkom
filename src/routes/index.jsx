@@ -1,17 +1,25 @@
 import React from "react";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import Login from "@/pages/auth/index";
-import ProtectedRoute from "./protected-route";
+// import ProtectedRoute from "./protected-route";
 import { AuthProvider } from "@/utils/context/auth-context";
 import Register from "@/pages/auth/register";
-// import Dashboard from "@/pages/admin/dashboard/index";
+import DashboardAdmin from "@/pages/admin/dashboard/index";
 // import Kemitraan from "@/pages/admin/kemitraan/index";
-// import LiputanKegiatan from "@/pages/admin/liputan-kegiatan/index"
+import LiputanKegiatan from "@/pages/admin/liputan-kegiatan/index"
 // import PeminjamanAlat from "@/pages/admin/peminjaman-alat/index"
-// import PenerbitanBerita from "@/pages/admin/penerbitan-berita/index"
+import PenerbitanBerita from "@/pages/admin/penerbitan-berita/index"
+import DetailLiputanKegiatan from "@/pages/admin/liputan-kegiatan/detail-liputan-kegiatan";
+import DashboardUser from "@/pages/user/dashboard";
+import NotFound from "@/pages/404/index"
+import DetailPenerbitanBerita from "@/pages/admin/penerbitan-berita/detail-penerbitan-berita";
 
 export default function Router() {
   const router = createBrowserRouter([
+    {
+      path: "*",
+      element: <NotFound/>,
+    },
     {
       path: "/",
       element: <Login />,
@@ -20,30 +28,24 @@ export default function Router() {
       path: "/register",
       element: <Register />,
     },
-    // {
-    //   path: "admin/dashboard",
-    //   element: (
-    //     <ProtectedRoute>
-    //       <Dashboard />
-    //     </ProtectedRoute>
-    //   ),
-    // },
-    // {
-    //   path: "admin/liputan-kegiatan",
-    //   element: (
-    //     <ProtectedRoute>
-    //       <LiputanKegiatan />
-    //     </ProtectedRoute>
-    //   ),
-    // },
-    // {
-    //   path: "admin/liputan-kegiatan/:id",
-    //   element: (
-    //     <ProtectedRoute>
-    //       <DetailUser />
-    //     </ProtectedRoute>
-    //   ),
-    // },
+    {
+      path: "admin/dashboard",
+      element: (
+          <DashboardAdmin />
+      ),
+    },
+    {
+      path: "admin/liputan-kegiatan",
+      element: (
+          <LiputanKegiatan />
+      ),
+    },
+    {
+      path: "admin/liputan-kegiatan/:id",
+      element: (
+          <DetailLiputanKegiatan />
+      ),
+    },
     // {
     //   path: "admin/liputan-kegiatan/create",
     //   element: (
@@ -52,28 +54,22 @@ export default function Router() {
     //     </ProtectedRoute>
     //   ),
     // },
-    // {
-    //   path: "admin/penerbitan-berita",
-    //   element: (
-    //     <ProtectedRoute>
-    //       <PenerbitanBerita />
-    //     </ProtectedRoute>
-    //   ),
-    // },
-    // {
-    //   path: "admin/penerbitan-berita/:id",
-    //   element: (
-    //     <ProtectedRoute>
-    //       <DetailUser />
-    //     </ProtectedRoute>
-    //   ),
-    // },
+    {
+      path: "admin/penerbitan-berita",
+      element: (
+          <PenerbitanBerita />
+      ),
+    },
+    {
+      path: "admin/penerbitan-berita/:id",
+      element: (
+          <DetailPenerbitanBerita />
+      ),
+    },
     // {
     //   path: "admin/penerbitan-berita/create",
     //   element: (
-    //     <ProtectedRoute>
     //       <AddUser />
-    //     </ProtectedRoute>
     //   ),
     // },
     // {
@@ -124,6 +120,13 @@ export default function Router() {
     //     </ProtectedRoute>
     //   ),
     // },
+    {
+      path: "user/dashboard",
+      element: (
+         <DashboardUser/>
+      ),
+    },
+    
   ]);
 
   return (
