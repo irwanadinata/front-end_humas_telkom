@@ -8,7 +8,6 @@ import { Button } from "@/components/ui/button";
 import SkeletonForm from "./skeleton/skeleton-form";
 import {
   getPenerbitanBeritaById,
-  addPenerbitanBerita,
   editPenerbitanBerita,
 } from "@/utils/api/penerbitan-berita/index";
 import {
@@ -19,6 +18,13 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 
 const PenerbitanBeritaForm = ({ action, id }) => {
   const navigate = useNavigate();
@@ -26,7 +32,7 @@ const PenerbitanBeritaForm = ({ action, id }) => {
   const [processing, setProcessing] = useState(false);
   const form = useForm({
     defaultValues: {
-      name: "",
+      nama: "",
       peran: "",
       unit: "",
       nomorwa: "",
@@ -35,6 +41,7 @@ const PenerbitanBeritaForm = ({ action, id }) => {
       media: "",
       linkmateri: "",
       judul: "",
+      status: "pending",
     },
   });
 
@@ -54,7 +61,7 @@ const PenerbitanBeritaForm = ({ action, id }) => {
     try {
       const data = await getPenerbitanBeritaById(id);
       const {
-        name,
+        nama,
         peran,
         unit,
         nomorwa,
@@ -63,10 +70,11 @@ const PenerbitanBeritaForm = ({ action, id }) => {
         media,
         linkmateri,
         judul,
+        status,
       } = data;
 
       form.reset({
-        name,
+        nama,
         peran,
         unit,
         nomorwa,
@@ -75,6 +83,7 @@ const PenerbitanBeritaForm = ({ action, id }) => {
         media,
         linkmateri,
         judul,
+        status,
       });
       setLoading(false);
     } catch (error) {
@@ -84,75 +93,25 @@ const PenerbitanBeritaForm = ({ action, id }) => {
   };
 
   useEffect(() => {
-    if (action !== "add") {
-      getDetailPenerbitanBerita(id);
-    }
-  }, [id, action]);
+    getDetailPenerbitanBerita(id);
+  }, []);
 
   const onSubmit = (data) => {
-    const {
-      name,
-      peran,
-      unit,
-      nomorwa,
-      email,
-      materi,
-      media,
-      linkmateri,
-      judul,
-    } = data;
-
-    if (action === "add") {
-      setProcessing(true);
-      addPenerbitanBerita({
-        name,
-        peran,
-        unit,
-        nomorwa,
-        email,
-        materi,
-        media,
-        linkmateri,
-        judul,
+    console.log(data);
+    const editedData = { ...data };
+    setProcessing(true);
+    editPenerbitanBerita(id, editedData)
+      .then((message) => {
+        navigate("/admin/penerbitan-berita");
+        Toast.fire({ icon: "success", title: message });
       })
-        .then((message) => {
-          navigate("/admin/penerbitan-berita");
-          Toast.fire({ icon: "success", title: message });
-        })
-        .catch((message) => {
-          navigate("/admin/penerbitan-berita");
-          Toast.fire({ icon: "error", title: message });
-        })
-        .finally(() => {
-          setProcessing(false);
-        });
-    } else if (action === "edit") {
-      setProcessing(true);
-      const editedData = {
-        name,
-        peran,
-        unit,
-        nomorwa,
-        email,
-        materi,
-        media,
-        linkmateri,
-        judul,
-      };
-
-      editPenerbitanBerita(id, editedData)
-        .then((message) => {
-          navigate("/admin/penerbitan-berita");
-          Toast.fire({ icon: "success", title: message });
-        })
-        .catch((message) => {
-          navigate("/admin/penerbitan-berita");
-          Toast.fire({ icon: "error", title: message });
-        })
-        .finally(() => {
-          setProcessing(false);
-        });
-    }
+      .catch((message) => {
+        navigate("/admin/penerbitan-berita");
+        Toast.fire({ icon: "error", title: message });
+      })
+      .finally(() => {
+        setProcessing(false);
+      });
   };
 
   return (
@@ -187,6 +146,26 @@ const PenerbitanBeritaForm = ({ action, id }) => {
             />
             <FormField
               control={form.control}
+              name="email"
+              render={({ field }) => (
+                <FormItem className="w-full">
+                  <FormLabel htmlFor="input-penerbitan-berita-email">
+                    Email
+                  </FormLabel>
+                  <FormControl>
+                    <Input
+                      {...field}
+                      id="input-penerbitan-berita-email"
+                      className="disabled:opacity-100"
+                      disabled={action === "detail"}
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
               name="peran"
               render={({ field }) => (
                 <FormItem className="w-full">
@@ -194,16 +173,34 @@ const PenerbitanBeritaForm = ({ action, id }) => {
                     Peran
                   </FormLabel>
                   <FormControl>
-                  <select
-                      {...field}
-                      id="input-penerbitan-berita-peran"
-                      className="border rounded-md px-3 py-2 w-full"
+                    <Select
+                      onValueChange={(value) => field.onChange(value)}
                       disabled={action === "detail"}
                     >
-                      <option value="dosen">Dosen</option>
-                      <option value="pegawai">Pegawai</option>
-                      <option value="mahasiswa">Mahasiswa</option>
-                    </select>
+                      <SelectTrigger className="w-full border rounded-md px-3 py-2 bg-white text-gray-900 focus:ring-1">
+                        <SelectValue placeholder="Pilih Peran" />
+                      </SelectTrigger>
+                      <SelectContent className="bg-white border rounded-md shadow-md">
+                        <SelectItem
+                          className="cursor-pointer hover:text-white"
+                          value="dosen"
+                        >
+                          Dosen
+                        </SelectItem>
+                        <SelectItem
+                          className="cursor-pointer hover:text-white"
+                          value="pegawai"
+                        >
+                          Pegawai
+                        </SelectItem>
+                        <SelectItem
+                          className="cursor-pointer hover:text-white"
+                          value="mahasiswa"
+                        >
+                          Mahasiswa
+                        </SelectItem>
+                      </SelectContent>
+                    </Select>
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -251,6 +248,26 @@ const PenerbitanBeritaForm = ({ action, id }) => {
             />
             <FormField
               control={form.control}
+              name="judul"
+              render={({ field }) => (
+                <FormItem className="w-full">
+                  <FormLabel htmlFor="input-penerbitan-berita-judul">
+                    Judul Berita
+                  </FormLabel>
+                  <FormControl>
+                    <Input
+                      {...field}
+                      id="input-penerbitan-berita-judul"
+                      className="disabled:opacity-100"
+                      disabled={action === "detail"}
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
               name="materi"
               render={({ field }) => (
                 <FormItem className="w-full">
@@ -258,16 +275,34 @@ const PenerbitanBeritaForm = ({ action, id }) => {
                     Output Materi
                   </FormLabel>
                   <FormControl>
-                  <select
-                      {...field}
-                      id="input-penerbitan-berita-materi"
-                      className="border rounded-md px-3 py-2 w-full"
+                    <Select
+                      onValueChange={(value) => field.onChange(value)}
                       disabled={action === "detail"}
                     >
-                      <option value="artikel">Artikel</option>
-                      <option value="berita">Berita</option>
-                      <option value="video">Video</option>
-                    </select>
+                      <SelectTrigger className="w-full border rounded-md px-3 py-2 bg-white text-gray-900 focus:ring-1">
+                        <SelectValue placeholder="Pilih Materi" />
+                      </SelectTrigger>
+                      <SelectContent className="bg-white border rounded-md shadow-md">
+                        <SelectItem
+                          className="cursor-pointer hover:text-white"
+                          value="artikel"
+                        >
+                          Artikel
+                        </SelectItem>
+                        <SelectItem
+                          className="cursor-pointer hover:text-white"
+                          value="berita"
+                        >
+                          Berita
+                        </SelectItem>
+                        <SelectItem
+                          className="cursor-pointer hover:text-white"
+                          value="video"
+                        >
+                          Video
+                        </SelectItem>
+                      </SelectContent>
+                    </Select>
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -278,21 +313,42 @@ const PenerbitanBeritaForm = ({ action, id }) => {
               name="media"
               render={({ field }) => (
                 <FormItem className="w-full">
-                  <FormLabel htmlFor="media">
-                    Media Publikasi
-                  </FormLabel>
+                  <FormLabel htmlFor="media">Media Publikasi</FormLabel>
                   <FormControl>
-                    <select
-                      {...field}
-                      id="media"
-                      className="border rounded-md px-3 py-2 w-full"
+                    <Select
+                      onValueChange={(value) => field.onChange(value)}
                       disabled={action === "detail"}
                     >
-                      <option value="instagram">Instagram Official TUP</option>
-                      <option value="youtube">Youtube Official TUP</option>
-                      <option value="website">Website Official TUP</option>
-                      <option value="portal">Portal Berita Media Partner</option>
-                    </select>
+                      <SelectTrigger className="w-full border rounded-md px-3 py-2 bg-white text-gray-900 focus:ring-1">
+                        <SelectValue placeholder="Pilih Media Publikasi" />
+                      </SelectTrigger>
+                      <SelectContent className="bg-white border rounded-md shadow-md">
+                        <SelectItem
+                          className="cursor-pointer hover:text-white"
+                          value="instagram"
+                        >
+                          Instagram Official TUP
+                        </SelectItem>
+                        <SelectItem
+                          className="cursor-pointer hover:text-white"
+                          value="youtube"
+                        >
+                          Youtube Official TUP
+                        </SelectItem>
+                        <SelectItem
+                          className="cursor-pointer hover:text-white"
+                          value="website"
+                        >
+                          Website Official TUP
+                        </SelectItem>
+                        <SelectItem
+                          className="cursor-pointer hover:text-white"
+                          value="portal"
+                        >
+                          Portal Berita Media Partner
+                        </SelectItem>
+                      </SelectContent>
+                    </Select>
                   </FormControl>
                   <FormMessage />
                 </FormItem>

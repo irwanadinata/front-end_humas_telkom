@@ -8,13 +8,9 @@ import { useParams, useSearchParams } from "react-router-dom";
 function DetailPenerbitanBerita() {
   const { id } = useParams();
   const [searchParams] = useSearchParams();
-
+  
   const isEdit = searchParams.get("edit");
-  let action = "detail";
-
-  if (isEdit) {
-    action = "edit";
-  }
+  const action = isEdit ? "edit" : "detail";
 
   return (
     <Layout>

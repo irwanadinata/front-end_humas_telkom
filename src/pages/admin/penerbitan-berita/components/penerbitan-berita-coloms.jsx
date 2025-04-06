@@ -12,7 +12,7 @@ export const columns = [
   },
   {
     header: "Nama",
-    accessorKey: "name",
+    accessorKey: "nama",
   },
   {
     header: "Peran",
@@ -31,6 +31,10 @@ export const columns = [
     accessorKey: "email",
   },
   {
+    header: "Judul",
+    accessorKey: "lampiran",
+  },
+  {
     header: "Materi",
     accessorKey: "materi",
   },
@@ -43,30 +47,26 @@ export const columns = [
     accessorKey: "linkmateri",
   },
   {
-    header: "Judul",
-    accessorKey: "lampiran",
-  },
-  {
     header: "Status",
     accessorKey: "status",
     cell: ({ row }) => {
       const originalStatus = row.original.status;
-      let status = "Menunggu";
+      let status = "Accepted";
 
-      // switch (originalStatus) {
-      //   case "pending":
-      //     status = "Menunggu";
-      //     break;
-      //   case "accepted":
-      //     status = "Diterima";
-      //     break;
-      //   case "rejected":
-      //     status = "Ditolak";
-      //     break;
-      //   default:
-      //     status = originalStatus;
-      //     break;
-      // }
+      switch (originalStatus) {
+        case "pending":
+          status = "Menunggu";
+          break;
+        case "accepted":
+          status = "Diterima";
+          break;
+        case "rejected":
+          status = "Ditolak";
+          break;
+        default:
+          status = originalStatus;
+          break;
+      }
 
       const badgeClass =
         status === "Menunggu"
