@@ -17,7 +17,6 @@ import { id as Id } from "date-fns/locale";
 import SkeletonForm from "./skeleton/skeleton-form";
 import {
   getLiputanKegiatanById,
-  addLiputanKegiatan,
   editLiputanKegiatan,
 } from "@/utils/api/liputan-kegiatan/index";
 import {
@@ -28,6 +27,14 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import { Textarea } from "@/components/ui/textarea";
 
 const LiputanKegiatanForm = ({ action, id }) => {
   const navigate = useNavigate();
@@ -36,7 +43,7 @@ const LiputanKegiatanForm = ({ action, id }) => {
   const [processing, setProcessing] = useState(false);
   const form = useForm({
     defaultValues: {
-      name: "",
+      nama: "",
       unit: "",
       nomorwa: "",
       acara: "",
@@ -67,7 +74,7 @@ const LiputanKegiatanForm = ({ action, id }) => {
     try {
       const data = await getLiputanKegiatanById(id);
       const {
-        name,
+        nama,
         unit,
         nomorwa,
         acara,
@@ -84,7 +91,7 @@ const LiputanKegiatanForm = ({ action, id }) => {
       setPreview(lampiran);
 
       form.reset({
-        name,
+        nama,
         unit,
         nomorwa,
         acara,
@@ -105,83 +112,22 @@ const LiputanKegiatanForm = ({ action, id }) => {
   };
 
   useEffect(() => {
-    if (action !== "add") {
-      getDetailLiputanKegiatan(id);
-    }
-  }, [id, action]);
+    getDetailLiputanKegiatan();
+  }, []);
 
-  const onSubmit = (data) => {
-    const {
-      name,
-      unit,
-      nomorwa,
-      acara,
-      deskripsi,
-      tanggal_mulai,
-      tanggal_selesai,
-      waktu_mulai,
-      waktu_selesai,
-      tempat,
-      lampiran,
-      status,
-    } = data;
+  const onSubmit = async (data) => {
+    const editedData = { ...data };
+    setProcessing(true);
 
-    if (action === "add") {
-      setProcessing(true);
-      addLiputanKegiatan({
-        name,
-        unit,
-        nomorwa,
-        acara,
-        deskripsi,
-        tanggal_mulai,
-        tanggal_selesai,
-        waktu_mulai,
-        waktu_selesai,
-        tempat,
-        lampiran,
-        status,
-      })
-        .then((message) => {
-          navigate("/admin/liputan-kegiatan");
-          Toast.fire({ icon: "success", title: message });
-        })
-        .catch((message) => {
-          navigate("/admin/liputan-kegiatan");
-          Toast.fire({ icon: "error", title: message });
-        })
-        .finally(() => {
-          setProcessing(false);
-        });
-    } else if (action === "edit") {
-      setProcessing(true);
-      const editedData = {
-        name,
-        unit,
-        nomorwa,
-        acara,
-        deskripsi,
-        tanggal_mulai,
-        tanggal_selesai,
-        waktu_mulai,
-        waktu_selesai,
-        tempat,
-        lampiran,
-        status,
-      };
-
-      editLiputanKegiatan(id, editedData)
-        .then((message) => {
-          navigate("/admin/liputan-kegiatan");
-          Toast.fire({ icon: "success", title: message });
-        })
-        .catch((message) => {
-          navigate("/admin/liputan-kegiatan");
-          Toast.fire({ icon: "error", title: message });
-        })
-        .finally(() => {
-          setProcessing(false);
-        });
+    try {
+      const message = await editLiputanKegiatan(id, editedData);
+      navigate("/admin/liputan-kegiatan");
+      Toast.fire({ icon: "success", title: message });
+    } catch (error) {
+      navigate("/admin/liputan-kegiatan");
+      Toast.fire({ icon: "error", title: error });
+    } finally {
+      setProcessing(false);
     }
   };
 
@@ -197,11 +143,11 @@ const LiputanKegiatanForm = ({ action, id }) => {
           <>
             <FormField
               control={form.control}
-              name="name"
+              name="nama"
               render={({ field }) => (
                 <FormItem className="w-full">
                   <FormLabel htmlFor="input-liputan-kegiatan-name">
-                    Nama
+                    Nama Lengkap
                   </FormLabel>
                   <FormControl>
                     <Input
@@ -224,76 +170,101 @@ const LiputanKegiatanForm = ({ action, id }) => {
                     Unit/Prodi/Ormawa
                   </FormLabel>
                   <FormControl>
-                    <select
-                      {...field}
-                      id="status"
-                      className="border rounded-md px-3 py-2 w-full"
+                    <Select
+                      onValueChange={(value) => field.onChange(value)}
                       disabled={action === "detail"}
                     >
-                      <option value="ti">Prodi - Teknik Informatika</option>
-                      <option value="rpl">
-                        Prodi - Rekayasa Perangkat Lunak
-                      </option>
-                      <option value="si">Prodi - Sistem Informasi</option>
-                      <option value="ds">Prodi - Data Science</option>
-                      <option value="d3tt">
-                        Prodi - D3 Teknik Telekomunikasi
-                      </option>
-                      <option value="s1tt">
-                        Prodi - S1 Teknik Telekomunikasi
-                      </option>
-                      <option value="tb">Prodi - Teknik Biomedis</option>
-                      <option value="te">Prodi - Teknik Elektro</option>
-                      <option value="tp">Prodi - Teknologi Pangan</option>
-                      <option value="dkv">
-                        Prodi - Desain Komunikasi Visual
-                      </option>
-                      <option value="tii">Prodi - Teknik Industri</option>
-                      <option value="bd">Prodi - Bisnis Digital</option>
-                      <option value="dp">Prodi - Desain Produk</option>
-                      <option value="tl">Prodi - Teknik Logistik</option>
-                      <option value="bidang1-lppm">Bidang I - LPPM</option>
-                      <option value="bidang1-inovasi">
-                        Bidang I - Sentra Inovasi
-                      </option>
-                      <option value="bidang1-perpus">
-                        Bidang I - Perpustakaan
-                      </option>
-                      <option value="bidang1-akademik">
-                        Bidang I - Akademik & Pusat Bahasa
-                      </option>
-                      <option value="bidang2-sdm">Bidang II - SDM</option>
-                      <option value="bidang2-keuangan">
-                        Bidang II - Keuangan
-                      </option>
-                      <option value="bidang2-sistefo">
-                        Bidang II - Sistefo
-                      </option>
-                      <option value="bidang2-logistik">
-                        Bidang II - Logistik
-                      </option>
-                      <option value="bidang3-pemasaran">
-                        Bidang III - Pemasaran & Admisi
-                      </option>
-                      <option value="bidang3-karir">
-                        Bidang III - Karir & Konseling
-                      </option>
-                      <option value="bidang3-kemahasiswaan">
-                        Bidang III - Kemahasiswaan
-                      </option>
-                      <option value="rektorat-sekpim">
-                        Bidang Rektorat - Sekpim dan SAI
-                      </option>
-                      <option value="rektorat-mutu">
-                        Bidang Rektorat - Satuan Penjamin Mutu waktu_selesai,nan
-                        Mutu
-                      </option>
-                      <option value="rektorat-kui">
-                        Bidang Rektorat - KUI
-                      </option>
-                      <option value="ormawa-bem">Ormawa - BEM</option>
-                    </select>
+                      <SelectTrigger className="w-full border rounded-md px-3 py-2 bg-white text-gray-900 focus:ring-1">
+                        <SelectValue placeholder="Pilih Unit/Prodi/Ormawa" />
+                      </SelectTrigger>
+                      <SelectContent className="bg-white border rounded-md shadow-md">
+                        <SelectItem value="ti">
+                          Prodi - Teknik Informatika
+                        </SelectItem>
+                        <SelectItem value="rpl">
+                          Prodi - Rekayasa Perangkat Lunak
+                        </SelectItem>
+                        <SelectItem value="si">
+                          Prodi - Sistem Informasi
+                        </SelectItem>
+                        <SelectItem value="ds">Prodi - Data Science</SelectItem>
+                        <SelectItem value="d3tt">
+                          Prodi - D3 Teknik Telekomunikasi
+                        </SelectItem>
+                        <SelectItem value="s1tt">
+                          Prodi - S1 Teknik Telekomunikasi
+                        </SelectItem>
+                        <SelectItem value="tb">
+                          Prodi - Teknik Biomedis
+                        </SelectItem>
+                        <SelectItem value="te">
+                          Prodi - Teknik Elektro
+                        </SelectItem>
+                        <SelectItem value="tp">
+                          Prodi - Teknologi Pangan
+                        </SelectItem>
+                        <SelectItem value="dkv">
+                          Prodi - Desain Komunikasi Visual
+                        </SelectItem>
+                        <SelectItem value="tii">
+                          Prodi - Teknik Industri
+                        </SelectItem>
+                        <SelectItem value="bd">
+                          Prodi - Bisnis Digital
+                        </SelectItem>
+                        <SelectItem value="dp">
+                          Prodi - Desain Produk
+                        </SelectItem>
+                        <SelectItem value="tl">
+                          Prodi - Teknik Logistik
+                        </SelectItem>
+                        <SelectItem value="bidang1-lppm">
+                          Bidang I - LPPM
+                        </SelectItem>
+                        <SelectItem value="bidang1-inovasi">
+                          Bidang I - Sentra Inovasi
+                        </SelectItem>
+                        <SelectItem value="bidang1-perpus">
+                          Bidang I - Perpustakaan
+                        </SelectItem>
+                        <SelectItem value="bidang1-akademik">
+                          Bidang I - Akademik & Pusat Bahasa
+                        </SelectItem>
+                        <SelectItem value="bidang2-sdm">
+                          Bidang II - SDM
+                        </SelectItem>
+                        <SelectItem value="bidang2-keuangan">
+                          Bidang II - Keuangan
+                        </SelectItem>
+                        <SelectItem value="bidang2-sistefo">
+                          Bidang II - Sistefo
+                        </SelectItem>
+                        <SelectItem value="bidang2-logistik">
+                          Bidang II - Logistik
+                        </SelectItem>
+                        <SelectItem value="bidang3-pemasaran">
+                          Bidang III - Pemasaran & Admisi
+                        </SelectItem>
+                        <SelectItem value="bidang3-karir">
+                          Bidang III - Karir & Konseling
+                        </SelectItem>
+                        <SelectItem value="bidang3-kemahasiswaan">
+                          Bidang III - Kemahasiswaan
+                        </SelectItem>
+                        <SelectItem value="rektorat-sekpim">
+                          Bidang Rektorat - Sekpim dan SAI
+                        </SelectItem>
+                        <SelectItem value="rektorat-mutu">
+                          Bidang Rektorat - Satuan Penjamin Mutu
+                        </SelectItem>
+                        <SelectItem value="rektorat-kui">
+                          Bidang Rektorat - KUI
+                        </SelectItem>
+                        <SelectItem value="ormawa-bem">Ormawa - BEM</SelectItem>
+                      </SelectContent>
+                    </Select>
                   </FormControl>
+
                   <FormMessage />
                 </FormItem>
               )}
@@ -347,10 +318,10 @@ const LiputanKegiatanForm = ({ action, id }) => {
                     Deskripsi
                   </FormLabel>
                   <FormControl>
-                    <Input
+                  <Textarea
                       {...field}
-                      id="input-liputan-kegiatan-deskripsi"
-                      className="disabled:opacity-100"
+                      id="input-fundraise-description"
+                      className="min-h-[100px] disabled:opacity-100"
                       disabled={action === "detail"}
                     />
                   </FormControl>
@@ -506,7 +477,7 @@ const LiputanKegiatanForm = ({ action, id }) => {
               render={({ field }) => (
                 <FormItem>
                   <FormLabel htmlFor="input-lampiran-lampiran">
-                    Poster
+                    Lampiran
                   </FormLabel>
                   <FormControl>
                     <FileInput

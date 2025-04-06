@@ -12,7 +12,7 @@ export const columns = [
   },
   {
     header: "Nama",
-    accessorKey: "name",
+    accessorKey: "nama",
   },
   {
     header: "Unit/Prodi/Ormawa",
@@ -49,20 +49,20 @@ export const columns = [
       const originalStatus = row.original.status;
       let status = "Menunggu";
 
-    //   switch (originalStatus) {
-    //     case "pending":
-    //       status = "Menunggu";
-    //       break;
-    //     case "accepted":
-    //       status = "Diterima";
-    //       break;
-    //     case "rejected":
-    //       status = "Ditolak";
-    //       break;
-    //     default:
-    //       status = originalStatus;
-    //       break;
-    //   }
+      switch (originalStatus) {
+        case "pending":
+          status = "Menunggu";
+          break;
+        case "accepted":
+          status = "Diterima";
+          break;
+        case "rejected":
+          status = "Ditolak";
+          break;
+        default:
+          status = originalStatus;
+          break;
+      }
 
       const badgeClass =
         status === "Menunggu"

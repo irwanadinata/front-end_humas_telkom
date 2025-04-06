@@ -14,8 +14,6 @@ const FormHeader = ({ title }) => {
           ? "Edit Liputan Kegiatan"
           : title === "detail"
           ? "Detail Liputan Kegiatan"
-          : title === "add"
-          ? "Tambah Liputan Kegiatan"
           : ""}
       </h3>
     </div>
