@@ -31,10 +31,11 @@ export const addLiputanKegiatan = async ({ ...data }) => {
         },
       }
     );
-    return "Berhasil menambah liputan kegiatan";
+    return "SUKSES menambah liputan kegiatan";
   } catch (error) {
-    console.error(error);
-    throw error;
+    console.error("Error:", error);
+    const errorMessage = error.response?.data?.message || "ERROR menambah liputan kegiatan";
+    throw new Error(errorMessage);
   }
 };
 
