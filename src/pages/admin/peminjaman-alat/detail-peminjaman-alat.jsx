@@ -10,11 +10,7 @@ function DetailPeminjamanAlat() {
   const [searchParams] = useSearchParams();
 
   const isEdit = searchParams.get("edit");
-  let action = "detail";
-
-  if (isEdit) {
-    action = "edit";
-  }
+  const action = isEdit ? "edit" : "detail";
 
   return (
     <Layout>

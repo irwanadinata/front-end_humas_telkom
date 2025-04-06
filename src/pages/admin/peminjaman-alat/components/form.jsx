@@ -17,7 +17,6 @@ import { id as Id } from "date-fns/locale";
 import SkeletonForm from "./skeleton/skeleton-form";
 import {
   getPeminjamanAlatById,
-  addPeminjamanAlat,
   editPeminjamanAlat,
 } from "@/utils/api/peminjaman-alat/index";
 import {
@@ -37,14 +36,14 @@ const PeminjamanAlatForm = ({ action, id }) => {
   const form = useForm({
     defaultValues: {
       nama: "",
-      nim:"",
+      nim: "",
       unit: "",
       nomorwa: "",
       keperluan: "",
       tanggal_mulai: "",
       tanggal_selesai: "",
-      lampiran:"",
-      status: "",
+      lampiran: "",
+      status: "pending",
     },
   });
 
@@ -96,76 +95,25 @@ const PeminjamanAlatForm = ({ action, id }) => {
   };
 
   useEffect(() => {
-    if (action !== "add") {
       getDetailPeminjamanAlat(id);
-    }
-  }, [id, action]);
+  }, []);
 
-  const onSubmit = (data) => {
-    const {
-        nama,
-        nim,
-        unit,
-        nomorwa,
-        keperluan,
-        tanggal_mulai,
-        tanggal_selesai,
-        lampiran,
-        status,
-    } = data;
-
-    if (action === "add") {
-      setProcessing(true);
-      addPeminjamanAlat({
-        nama,
-        nim,
-        unit,
-        nomorwa,
-        keperluan,
-        tanggal_mulai,
-        tanggal_selesai,
-        lampiran,
-        status,
-      })
-        .then((message) => {
-          navigate("/admin/peminjaman-alat");
-          Toast.fire({ icon: "success", title: message });
-        })
-        .catch((message) => {
-          navigate("/admin/peminjaman-alat");
-          Toast.fire({ icon: "error", title: message });
-        })
-        .finally(() => {
-          setProcessing(false);
-        });
-    } else if (action === "edit") {
-      setProcessing(true);
-      const editedData = {
-        nama,
-        nim,
-        unit,
-        nomorwa,
-        keperluan,
-        tanggal_mulai,
-        tanggal_selesai,
-        lampiran,
-        status,
-      };
-
-      editPeminjamanAlat(id, editedData)
-        .then((message) => {
-          navigate("/admin/peminjaman-alat");
-          Toast.fire({ icon: "success", title: message });
-        })
-        .catch((message) => {
-          navigate("/admin/peminjaman-alat");
-          Toast.fire({ icon: "error", title: message });
-        })
-        .finally(() => {
-          setProcessing(false);
-        });
+  const onSubmit = async (data) => {
+    const editedData = { ...data };
+    setProcessing(true);
+  
+    try {
+      const message = await editPeminjamanAlat(id, editedData);
+      navigate("/admin/peminjaman-alat");
+      Toast.fire({ icon: "success", title: message });
+    } catch (error) {
+      navigate("/admin/peminjaman-alat");
+      Toast.fire({ icon: "error", title: error});
+    } finally {
+      setProcessing(false);
     }
   };
+  
 
   return (
     <Form {...form}>
@@ -202,11 +150,9 @@ const PeminjamanAlatForm = ({ action, id }) => {
               name="nim"
               render={({ field }) => (
                 <FormItem className="w-full">
-                  <FormLabel htmlFor="input-peminjaman-alat-nim">
-                    NIM
-                  </FormLabel>
+                  <FormLabel htmlFor="input-peminjaman-alat-nim">NIM</FormLabel>
                   <FormControl>
-                  <Input
+                    <Input
                       {...field}
                       id="input-peminjaman-alat-nomorwa"
                       className="disabled:opacity-100"
@@ -226,7 +172,7 @@ const PeminjamanAlatForm = ({ action, id }) => {
                     Unit/Prodi/Ormawa
                   </FormLabel>
                   <FormControl>
-                  <Input
+                    <Input
                       {...field}
                       id="input-peminjaman-alat-nomorwa"
                       className="disabled:opacity-100"
@@ -263,7 +209,7 @@ const PeminjamanAlatForm = ({ action, id }) => {
               render={({ field }) => (
                 <FormItem className="w-full">
                   <FormLabel htmlFor="input-peminjaman-alat-keperluan">
-                   Keperluan
+                    Keperluan
                   </FormLabel>
                   <FormControl>
                     <Input

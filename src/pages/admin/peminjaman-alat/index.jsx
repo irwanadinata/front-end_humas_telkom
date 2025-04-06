@@ -6,8 +6,6 @@ import TableData from "./components/peminjaman-alat-table";
 import { columns } from "./components/peminjaman-alat-coloms";
 import TableHeader from "@/components/table/table-header";
 import TableLayout from "@/components/table/table-layout";
-import { Button } from "@/components/ui/button";
-import { Link } from "react-router-dom";
 
 function PeminjamanAlat() {
   const [data, setData] = useState([]);
@@ -28,26 +26,10 @@ function PeminjamanAlat() {
 
   return (
     <Layout>
-      <Header titleHeader="Penerbitan Berita" />
+      <Header titleHeader="Peminjaman Alat" />
       <TableLayout>
-        <TableHeader heading="List Penerbitan Berita" hasAction={true}>
-            <div className="flex justify-end">
-            <Button
-            id="btn-add-peminjaman-alat"
-            size="sm"
-            className="rounded-full bg-[#bf131d] hover:bg-[#bf131d]/80"
-            asChild
-          >
-            <Link to="/admin/peminjaman-alat/create">Buat Peminjaman Alat</Link>
-          </Button>
-            </div>
-          
-        </TableHeader>
-        <TableData
-          data={data}
-          columns={columns}
-          loading={loading}
-        />
+        <TableHeader heading="List Peminjaman Alat" />
+        <TableData data={data} columns={columns} loading={loading} />
       </TableLayout>
     </Layout>
   );
