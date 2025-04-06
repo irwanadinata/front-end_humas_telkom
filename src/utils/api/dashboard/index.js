@@ -1,0 +1,2 @@
+import { getTotalDataLiputanKegiatan, getTotalDataPenerbitanBerita, getTotalDataPeminjamanAlat, getTotalDataKemitraan } from "./api";
+export {getTotalDataLiputanKegiatan, getTotalDataPenerbitanBerita, getTotalDataPeminjamanAlat, getTotalDataKemitraan}

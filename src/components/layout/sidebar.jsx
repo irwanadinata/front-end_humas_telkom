@@ -1,5 +1,5 @@
 import { NavLink } from "react-router-dom";
-import { House, Newspaper, Handshake, Cctv, Printer } from "lucide-react";
+import { House, Newspaper, Handshake, Cctv, Printer, Download } from "lucide-react";
 import logotelu1 from "@/assets/logo/telu-logo1.png"
 
 function Sidebar({ isOpen }) {
@@ -178,6 +178,36 @@ function Sidebar({ isOpen }) {
                   } ${isActive ? "text-[#bf131d]" : "text-[#4B4B4B99]"}`}
                 >
                   Kemitraan
+                </span>
+              </div>
+            )}
+          </NavLink>
+          <NavLink
+            id="navigate-to-download-template"
+            to="https://drive.google.com/drive/folders/1G07h5_-Glbb6WStUjff_ubC0YKaHYStP"
+            className={({ isActive }) =>
+              `text-slate-400 text-sm cursor-pointer h-14 flex hover:bg-slate-200 ${
+                isActive ? "bg-[#E5E9F4]" : ""
+              }`
+            }
+          >
+            {({ isActive }) => (
+              <div
+                className={`flex w-full py-2 self-center gap-3 border-l-[5px] ${
+                  isActive ? "border-[#bf131d]" : "border-transparent"
+                } ${!isOpen ? "justify-center" : "gap-2"}`}
+              >
+                <Download
+                  className={`w-5 h-5 ${isOpen ? "ms-3" : "ms-[-5px]"} ${
+                    isActive ? "text-[#bf131d]" : "text-[#4B4B4B99]"
+                  }`}
+                />
+                <span
+                  className={`font-bold whitespace-nowrap ${
+                    !isOpen && "hidden"
+                  } ${isActive ? "text-[#bf131d]" : "text-[#4B4B4B99]"}`}
+                >
+                  Download Template
                 </span>
               </div>
             )}

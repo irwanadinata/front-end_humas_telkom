@@ -1,0 +1,2 @@
+import { addPenerbitanBerita, getPenerbitanBerita, editPenerbitanBerita, getPenerbitanBeritaById, deletePenerbitanBerita } from "./api";
+export { addPenerbitanBerita, getPenerbitanBerita, editPenerbitanBerita, getPenerbitanBeritaById, deletePenerbitanBerita };
