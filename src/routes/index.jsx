@@ -5,7 +5,7 @@ import Login from "@/pages/auth/index";
 import { AuthProvider } from "@/utils/context/auth-context";
 import Register from "@/pages/auth/register";
 import DashboardAdmin from "@/pages/admin/dashboard/index";
-// import Kemitraan from "@/pages/admin/kemitraan/index";
+import Kemitraan from "@/pages/admin/kemitraan/index";
 import LiputanKegiatan from "@/pages/admin/liputan-kegiatan/index"
 import PeminjamanAlat from "@/pages/admin/peminjaman-alat/index"
 import PenerbitanBerita from "@/pages/admin/penerbitan-berita/index"
@@ -14,6 +14,11 @@ import DashboardUser from "@/pages/user/dashboard";
 import NotFound from "@/pages/404/index"
 import DetailPenerbitanBerita from "@/pages/admin/penerbitan-berita/detail-penerbitan-berita";
 import DetailPeminjamanAlat from "@/pages/admin/peminjaman-alat/detail-peminjaman-alat";
+import DetailKemitraan from "@/pages/admin/kemitraan/detail-kemitraan";
+import LiputanKegiatanUser from "@/pages/user/liputan-kegiatan";
+import PenerbitanBeritaUser from "@/pages/user/penerbitan-berita";
+import PeminjamanAlatUser from "@/pages/user/peminjaman-alat";
+import KemitraanUser from "@/pages/user/kemitraan";
 
 export default function Router() {
   const router = createBrowserRouter([
@@ -47,14 +52,6 @@ export default function Router() {
           <DetailLiputanKegiatan />
       ),
     },
-    // {
-    //   path: "admin/liputan-kegiatan/create",
-    //   element: (
-    //     <ProtectedRoute>
-    //       <AddUser />
-    //     </ProtectedRoute>
-    //   ),
-    // },
     {
       path: "admin/penerbitan-berita",
       element: (
@@ -67,12 +64,6 @@ export default function Router() {
           <DetailPenerbitanBerita />
       ),
     },
-    // {
-    //   path: "admin/penerbitan-berita/create",
-    //   element: (
-    //       <AddUser />
-    //   ),
-    // },
     {
       path: "admin/peminjaman-alat",
       element: (  
@@ -85,44 +76,48 @@ export default function Router() {
           <DetailPeminjamanAlat />
       ),
     },
-    // {
-    //   path: "admin/peminjaman-alat/create",
-    //   element: (
-    //     <ProtectedRoute>
-    //       <AddQuestion />
-    //     </ProtectedRoute>
-    //   ),
-    // },
-    // {
-    //   path: "admin/kemitraan",
-    //   element: (
-    //     <ProtectedRoute>
-    //       <Kemitraan />
-    //     </ProtectedRoute>
-    //   ),
-    // },
-    // {
-    //   path: "admin/kemitraan/:id",
-    //   element: (
-    //     <ProtectedRoute>
-    //       <Ranking />
-    //     </ProtectedRoute>
-    //   ),
-    // },
-    // {
-    //   path: "admin/kemitraan/create",
-    //   element: (
-    //     <ProtectedRoute>
-    //       <AddQuestion />
-    //     </ProtectedRoute>
-    //   ),
-    // },
+    {
+      path: "admin/kemitraan",
+      element: (
+          <Kemitraan />
+      ),
+    },
+    {
+      path: "admin/kemitraan/:id",
+      element: (
+          <DetailKemitraan/>
+      ),
+    },
     {
       path: "user/dashboard",
       element: (
          <DashboardUser/>
       ),
     },
+    {
+      path: "user/liputan-kegiatan",
+      element: (
+        <LiputanKegiatanUser/>
+      )
+    },
+    {
+      path: "user/penerbitan-berita",
+      element: (
+        <PenerbitanBeritaUser/>
+      )
+    },
+    {
+      path: "user/peminjaman-alat",
+      element: (
+        <PeminjamanAlatUser/>
+      )
+    },
+    {
+      path: "user/kemitraan",
+      element: (
+        <KemitraanUser/>
+      )
+    }
     
   ]);
 
