@@ -1,2 +1,3 @@
-import { getLiputanKegiatan, getLiputanKegiatanById, addLiputanKegiatan, editLiputanKegiatan, deleteLiputanKegiatan } from "./api";
-export { getLiputanKegiatan, getLiputanKegiatanById, addLiputanKegiatan, editLiputanKegiatan, deleteLiputanKegiatan };
+import { getLiputanKegiatan, getLiputanKegiatanById, addLiputanKegiatan, editLiputanKegiatan, deleteLiputanKegiatan} from "./api";
+import { liputanKegiatanSchema } from "./schema";
+export { getLiputanKegiatan, getLiputanKegiatanById, addLiputanKegiatan, editLiputanKegiatan, deleteLiputanKegiatan, liputanKegiatanSchema };
