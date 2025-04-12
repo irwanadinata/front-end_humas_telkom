@@ -4,7 +4,7 @@ import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import { Layout } from "@/pages/auth/components/layout";
 import { Link } from "react-router-dom";
-import { register, registerSchema } from "@/utils/api/auth";
+import { register as registerUser, registerSchema } from "@/utils/api/auth";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Button } from "@/components/ui/button"
 import { InputLabel } from "@/components/ui/input-with-label";
@@ -37,9 +37,9 @@ function Register() {
   });
 
   async function handleRegister(data) {
-    const { name, email, password } = data;
+    const { nama, email, password } = data;
     try {
-      await register(name, email, password);
+      await registerUser(nama, email, password);
       Toast.fire({ icon: "success", title: "Daftar Akun Berhasil, <br/> Silahkan Login" });
       navigate("/");
     } catch (error) {
@@ -56,13 +56,13 @@ function Register() {
     <Layout label="Layanan HUMAS - Register">
       <form aria-label="form-input" onSubmit={handleSubmit(handleRegister)}>
         <InputLabel
-          id="name"
-          aria-label="name"
+          id="nama"
+          aria-label="nama"
           label="Nama"
           type="text"
           isLogin={true}
           placeholder="Masukkan nama"
-          name="name"
+          name="nama"
           register={register}
           error={errors.name?.message}
         />
