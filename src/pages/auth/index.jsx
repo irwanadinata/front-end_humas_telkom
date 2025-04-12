@@ -40,11 +40,12 @@ function Login() {
 
   async function handleLogin(data) {
     const { email, password } = data;
-
+    console.log(data)
     try {
       const response = await login(email, password);
       const token = response.token;
       const role = response.role;
+      console.log(role)
       Toast.fire({ icon: "success", title: "Login berhasil" });
       contextLogin(token);
       if (role === "admin") {

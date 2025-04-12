@@ -2,7 +2,7 @@ import axiosWithConfig from "../axiosWithConfig";
 
 export const getLiputanKegiatan = async () => {
   try {
-    const response = await axiosWithConfig.get(`/liputan-kegiatan/admin`);
+    const response = await axiosWithConfig.get(`/liputan-kegiatan/`);
     return response.data;
   } catch (error) {
     console.error(error);
@@ -27,14 +27,14 @@ export const addLiputanKegiatan = async ({ ...data }) => {
       { ...data },
       {
         headers: {
-          "Content-Type": "application/json",
+          "Content-Type": "multipart/form-data",
         },
       }
     );
     return "SUKSES menambah liputan kegiatan";
   } catch (error) {
     console.error("Error:", error);
-    const errorMessage = error.response?.data?.message || "ERROR menambah liputan kegiatan";
+    const errorMessage = error.response?.data?.message || "GAGAL menambah liputan kegiatan";
     throw new Error(errorMessage);
   }
 };
@@ -48,7 +48,7 @@ export const editLiputanKegiatan = async (id, { ...data }) => {
       },
       {
         headers: {
-          "Content-Type": "application/json",
+          "Content-Type": "multipart/form-data",
         },
       }
     );

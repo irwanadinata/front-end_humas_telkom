@@ -4,6 +4,8 @@ import InfoIcon from "@/assets/icon/info";
 import { Button } from "@/components/ui/button";
 import ButtonDelete from "@/pages/admin/liputan-kegiatan/components/alert-dialog";
 import { Badge } from "@/components/ui/badge";
+import { formatTanggal } from "@/utils/formatter/date";
+import { formatWaktu } from "@/utils/formatter/date";
 
 export const columns = [
   {
@@ -19,28 +21,32 @@ export const columns = [
     accessorKey: "unit",
   },
   {
-    header: "Nomor WA",
-    accessorKey: "nomorwa",
-  },
-  {
     header: "Acara",
     accessorKey: "acara",
   },
   {
-    header: "Deskripsi",
-    accessorKey: "deskripsi",
+    header: "Nomor WA",
+    accessorKey: "nomorwa",
   },
   {
-    header: "Tanggal",
-    accessorKey: "tanggal",
+    header: "Tanggal Mulai",
+    accessorKey: "tanggal_mulai",
+    cell: ({ getValue }) => formatTanggal(getValue()),
   },
   {
-    header: "Jam",
-    accessorKey: "jam",
+    header: "Tanggal Selesai",
+    accessorKey: "tanggal_selesai",
+    cell: ({ getValue }) => formatTanggal(getValue()),
   },
   {
-    header: "Lampiran",
-    accessorKey: "lampiran",
+    header: "Waktu Mulai",
+    accessorKey: "waktu_mulai",
+    cell: ({ getValue }) => formatWaktu(getValue()),
+  },
+  {
+    header: "Waktu Selesai",
+    accessorKey: "waktu_selesai",
+    cell: ({ getValue }) => formatWaktu(getValue()),
   },
   {
     header: "Status",

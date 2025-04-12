@@ -33,13 +33,16 @@ import {
 import NavbarUser from "@/components/layout/navbar-user";
 import HeaderUser from "@/components/layout/header-user";
 import { Textarea } from "@/components/ui/textarea";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { liputanKegiatanSchema } from "@/utils/api/liputan-kegiatan/index";
 
 function LiputanKegiatanUser() {
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
-  const [preview, setPreview] = useState("");
+  const [fileInfo, setFileInfo] = useState(null);
 
   const form = useForm({
+    resolver: zodResolver(liputanKegiatanSchema),
     defaultValues: {
       nama: "",
       unit: "",
@@ -106,7 +109,7 @@ function LiputanKegiatanUser() {
             name="nama"
             render={({ field }) => (
               <FormItem className="w-full">
-                <FormLabel htmlFor="input-liputan-kegiatan-name">
+                <FormLabel htmlFor="input-liputan-kegiatan-name" className="text-[#000000]">
                   Nama Lengkap
                 </FormLabel>
                 <FormControl>
@@ -125,7 +128,7 @@ function LiputanKegiatanUser() {
             name="unit"
             render={({ field }) => (
               <FormItem className="w-full">
-                <FormLabel htmlFor="input-liputan-kegiatan-unit">
+                <FormLabel htmlFor="input-liputan-kegiatan-unit" className="text-[#000000]">
                   Unit/Prodi/Ormawa
                 </FormLabel>
                 <FormControl>
@@ -134,83 +137,91 @@ function LiputanKegiatanUser() {
                       <SelectValue placeholder="Pilih Unit/Prodi/Ormawa" />
                     </SelectTrigger>
                     <SelectContent className="bg-white border rounded-md shadow-md">
-                      <SelectItem value="ti">
+                      <SelectItem value="Prodi - Teknik Informatika">
                         Prodi - Teknik Informatika
                       </SelectItem>
-                      <SelectItem value="rpl">
+                      <SelectItem value="Prodi - Rekayasa Perangkat Lunak">
                         Prodi - Rekayasa Perangkat Lunak
                       </SelectItem>
-                      <SelectItem value="si">
+                      <SelectItem value="Prodi - Sistem Informasi">
                         Prodi - Sistem Informasi
                       </SelectItem>
-                      <SelectItem value="ds">Prodi - Data Science</SelectItem>
-                      <SelectItem value="d3tt">
+                      <SelectItem value="Prodi - Data Science">
+                        Prodi - Data Science
+                      </SelectItem>
+                      <SelectItem value="Prodi - D3 Teknik Telekomunikasi">
                         Prodi - D3 Teknik Telekomunikasi
                       </SelectItem>
-                      <SelectItem value="s1tt">
+                      <SelectItem value="Prodi - S1 Teknik Telekomunikasi">
                         Prodi - S1 Teknik Telekomunikasi
                       </SelectItem>
-                      <SelectItem value="tb">
+                      <SelectItem value="Prodi - Teknik Biomedis">
                         Prodi - Teknik Biomedis
                       </SelectItem>
-                      <SelectItem value="te">Prodi - Teknik Elektro</SelectItem>
-                      <SelectItem value="tp">
+                      <SelectItem value="Prodi - Teknik Elektro">
+                        Prodi - Teknik Elektro
+                      </SelectItem>
+                      <SelectItem value="Prodi - Teknologi Pangan">
                         Prodi - Teknologi Pangan
                       </SelectItem>
-                      <SelectItem value="dkv">
+                      <SelectItem value="Prodi - Desain Komunikasi Visual">
                         Prodi - Desain Komunikasi Visual
                       </SelectItem>
-                      <SelectItem value="tii">
+                      <SelectItem value="Prodi - Teknik Industri">
                         Prodi - Teknik Industri
                       </SelectItem>
-                      <SelectItem value="bd">Prodi - Bisnis Digital</SelectItem>
-                      <SelectItem value="dp">Prodi - Desain Produk</SelectItem>
-                      <SelectItem value="tl">
+                      <SelectItem value="Prodi - Bisnis Digital">
+                        Prodi - Bisnis Digital
+                      </SelectItem>
+                      <SelectItem value="Prodi - Desain Produk">
+                        Prodi - Desain Produk
+                      </SelectItem>
+                      <SelectItem value="Prodi - Teknik Logistik">
                         Prodi - Teknik Logistik
                       </SelectItem>
-                      <SelectItem value="bidang1-lppm">
+                      <SelectItem value="Bidang I - LPPM">
                         Bidang I - LPPM
                       </SelectItem>
-                      <SelectItem value="bidang1-inovasi">
+                      <SelectItem value="Bidang I - Sentra Inovasi">
                         Bidang I - Sentra Inovasi
                       </SelectItem>
-                      <SelectItem value="bidang1-perpus">
+                      <SelectItem value="Bidang I - Perpustakaan">
                         Bidang I - Perpustakaan
                       </SelectItem>
-                      <SelectItem value="bidang1-akademik">
+                      <SelectItem value="Bidang I - Akademik & Pusat Bahasa">
                         Bidang I - Akademik & Pusat Bahasa
                       </SelectItem>
-                      <SelectItem value="bidang2-sdm">
+                      <SelectItem value="Bidang II - SDM">
                         Bidang II - SDM
                       </SelectItem>
-                      <SelectItem value="bidang2-keuangan">
+                      <SelectItem value="Bidang II - Keuangan">
                         Bidang II - Keuangan
                       </SelectItem>
-                      <SelectItem value="bidang2-sistefo">
+                      <SelectItem value="Bidang II - Sistefo">
                         Bidang II - Sistefo
                       </SelectItem>
-                      <SelectItem value="bidang2-logistik">
+                      <SelectItem value="Bidang II - Logistik">
                         Bidang II - Logistik
                       </SelectItem>
-                      <SelectItem value="bidang3-pemasaran">
+                      <SelectItem value="Bidang III - Pemasaran & Admisi">
                         Bidang III - Pemasaran & Admisi
                       </SelectItem>
-                      <SelectItem value="bidang3-karir">
+                      <SelectItem value="Bidang III - Karir & Konseling">
                         Bidang III - Karir & Konseling
                       </SelectItem>
-                      <SelectItem value="bidang3-kemahasiswaan">
+                      <SelectItem value="Bidang III - Kemahasiswaan">
                         Bidang III - Kemahasiswaan
                       </SelectItem>
-                      <SelectItem value="rektorat-sekpim">
+                      <SelectItem value="Bidang Rektorat - Sekpim dan SAI">
                         Bidang Rektorat - Sekpim dan SAI
                       </SelectItem>
-                      <SelectItem value="rektorat-mutu">
+                      <SelectItem value="Bidang Rektorat - Satuan Penjamin Mutu">
                         Bidang Rektorat - Satuan Penjamin Mutu
                       </SelectItem>
-                      <SelectItem value="rektorat-kui">
+                      <SelectItem value="Bidang Rektorat - KUI">
                         Bidang Rektorat - KUI
                       </SelectItem>
-                      <SelectItem value="ormawa-bem">Ormawa - BEM</SelectItem>
+                      <SelectItem value="Ormawa - BEM">Ormawa - BEM</SelectItem>
                     </SelectContent>
                   </Select>
                 </FormControl>
@@ -223,7 +234,7 @@ function LiputanKegiatanUser() {
             name="nomorwa"
             render={({ field }) => (
               <FormItem>
-                <FormLabel htmlFor="input-liputan-kegiatan-nomorwa">
+                <FormLabel htmlFor="input-liputan-kegiatan-nomorwa" className="text-[#000000]">
                   Nomor WhatsApp
                 </FormLabel>
                 <FormControl>
@@ -242,7 +253,7 @@ function LiputanKegiatanUser() {
             name="acara"
             render={({ field }) => (
               <FormItem className="w-full">
-                <FormLabel htmlFor="input-liputan-kegiatan-acara">
+                <FormLabel htmlFor="input-liputan-kegiatan-acara" className="text-[#000000]">
                   Nama Acara
                 </FormLabel>
                 <FormControl>
@@ -261,15 +272,15 @@ function LiputanKegiatanUser() {
             name="deskripsi"
             render={({ field }) => (
               <FormItem className="w-full">
-                <FormLabel htmlFor="input-liputan-kegiatan-deskripsi">
+                <FormLabel htmlFor="input-liputan-kegiatan-deskripsi" className="text-[#000000]">
                   Deskripsi
                 </FormLabel>
                 <FormControl>
-                <Textarea
-                      {...field}
-                      id="input-liputan-kegiatan-description"
-                      className="min-h-[100px] disabled:opacity-100"
-                    />
+                  <Textarea
+                    {...field}
+                    id="input-liputan-kegiatan-description"
+                    className="min-h-[100px] disabled:opacity-100"
+                  />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -281,7 +292,7 @@ function LiputanKegiatanUser() {
               name="tanggal_mulai"
               render={({ field }) => (
                 <FormItem className="w-full">
-                  <FormLabel htmlFor="input-liputan-kegiatan-tanggal_mulai">
+                  <FormLabel htmlFor="input-liputan-kegiatan-tanggal_mulai" className="text-[#000000]">
                     Tanggal Mulai
                   </FormLabel>
                   <Popover>
@@ -318,7 +329,7 @@ function LiputanKegiatanUser() {
               name="tanggal_selesai"
               render={({ field }) => (
                 <FormItem className="w-full">
-                  <FormLabel htmlFor="input-liputan-kegiatan-tanggal_selesai">
+                  <FormLabel htmlFor="input-liputan-kegiatan-tanggal_selesai" className="text-[#000000]">
                     Tanggal Selesai
                   </FormLabel>
                   <Popover>
@@ -357,7 +368,7 @@ function LiputanKegiatanUser() {
               name="waktu_mulai"
               render={({ field }) => (
                 <FormItem className="w-full">
-                  <FormLabel htmlFor="input-liputan-kegiatan-waktu_mulai">
+                  <FormLabel htmlFor="input-liputan-kegiatan-waktu_mulai" className="text-[#000000]">
                     Waktu Mulai
                   </FormLabel>
                   <FormControl>
@@ -377,7 +388,7 @@ function LiputanKegiatanUser() {
               name="waktu_selesai"
               render={({ field }) => (
                 <FormItem className="w-full">
-                  <FormLabel htmlFor="input-liputan-kegiatan-waktu_selesai">
+                  <FormLabel htmlFor="input-liputan-kegiatan-waktu_selesai" className="text-[#000000]">
                     Waktu Selesai
                   </FormLabel>
                   <FormControl>
@@ -399,7 +410,7 @@ function LiputanKegiatanUser() {
             name="tempat"
             render={({ field }) => (
               <FormItem className="w-full">
-                <FormLabel htmlFor="input-liputan-kegiatan-tempat">
+                <FormLabel htmlFor="input-liputan-kegiatan-tempat" className="text-[#000000]">
                   Tempat Pelaksanaan
                 </FormLabel>
                 <FormControl>
@@ -419,22 +430,41 @@ function LiputanKegiatanUser() {
             name="lampiran"
             render={({ field }) => (
               <FormItem>
-                <FormLabel htmlFor="input-lampiran-lampiran">
-                  Lampiran
-                </FormLabel>
+                <FormLabel htmlFor="input-lampiran" className="text-[#000000]">Lampiran (<small>Poster/Dokumen Max 500kb</small>)</FormLabel>
                 <FormControl>
-                  <FileInput
-                    preview={preview}
-                    id="input-lampiran-lampiran"
-                    onChange={(e) => {
-                      field.onChange(e.target.files[0]);
-                      setPreview(
-                        e.target.files[0]
-                          ? URL.createObjectURL(e.target.files[0])
-                          : ""
-                      );
-                    }}
-                  />
+                  <>
+                    <FileInput
+                      id="input-lampiran"
+                      onChange={(e) => {
+                        const file = e.target.files[0];
+                        field.onChange(file);
+                        setFileInfo(
+                          file
+                            ? {
+                                name: file.name,
+                                size: (file.size / 1024).toFixed(2),
+                              }
+                            : null
+                        );
+                      }}
+                    />
+                    {fileInfo && (
+                      <div className="mt-2 text-sm text-gray-600">
+                        <p>
+                          <span className="font-medium text-gray-800">
+                            Name:
+                          </span>{" "}
+                          {fileInfo.name}
+                        </p>
+                        <p>
+                          <span className="font-medium text-gray-800">
+                            Size:
+                          </span>{" "}
+                          {fileInfo.size} KB
+                        </p>
+                      </div>
+                    )}
+                  </>
                 </FormControl>
                 <FormMessage />
               </FormItem>

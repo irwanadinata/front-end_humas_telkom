@@ -1,2 +1,2 @@
-import { getTotalDataLiputanKegiatan, getTotalDataPenerbitanBerita, getTotalDataPeminjamanAlat, getTotalDataKemitraan } from "./api";
-export {getTotalDataLiputanKegiatan, getTotalDataPenerbitanBerita, getTotalDataPeminjamanAlat, getTotalDataKemitraan}
+import { getTotalDataLiputanKegiatan, getTotalDataPenerbitanBerita, getTotalDataPeminjamanAlat, getTotalDataKemitraan, getProfile } from "./api";
+export {getTotalDataLiputanKegiatan, getTotalDataPenerbitanBerita, getTotalDataPeminjamanAlat, getTotalDataKemitraan, getProfile}

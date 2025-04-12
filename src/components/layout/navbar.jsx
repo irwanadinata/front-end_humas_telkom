@@ -1,7 +1,7 @@
 import Swal from "sweetalert2";
 import useStore from "@/utils/store/store";
 import { useNavigate } from "react-router-dom";
-// import { useAuth } from "@/utils/context/auth-context";
+import { useAuth } from "@/utils/context/auth-context";
 import { ChevronDown } from "lucide-react";
 import { Menu } from "lucide-react";
 import { LogOut } from "lucide-react";
@@ -25,7 +25,17 @@ const Toast = Swal.mixin({
 function Navbar() {
   const navigate = useNavigate();
   const { toggleSidebar } = useStore();
-  // const {logout } = useAuth();
+  const {logout } = useAuth();
+
+  const handleLogout = () => {
+    logout();
+    Toast.fire({
+      icon: "success",
+      title: "Logout berhasil!",
+    });
+    navigate("/");
+  };
+  
 
 
   return (
@@ -43,7 +53,7 @@ function Navbar() {
         <DropdownMenuContent>
           <div className="px-3 py-2 text-[#F64C4C] cursor-pointer flex gap-2">
             <LogOut className="w-5 h-5"/>
-              <p className="mt-[-0.125rem]">
+              <p className="mt-[-0.125rem]" onClick={handleLogout}>
                 Keluar
               </p>  
           </div>
