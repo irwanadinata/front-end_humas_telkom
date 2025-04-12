@@ -1,5 +1,5 @@
 import Swal from "sweetalert2";
-import { CalendarIcon, Loader2 } from "lucide-react";
+import { ArrowDownToLine, CalendarIcon, Loader2 } from "lucide-react";
 import { useForm } from "react-hook-form";
 import { useEffect, useState } from "react";
 import { Input } from "@/components/ui/input";
@@ -39,7 +39,8 @@ import { Textarea } from "@/components/ui/textarea";
 const LiputanKegiatanForm = ({ action, id }) => {
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
-  const [preview, setPreview] = useState("");
+  const [fileInfo, setFileInfo] = useState(null);
+  const [detail, setDetail] = useState(null);
   const [processing, setProcessing] = useState(false);
   const form = useForm({
     defaultValues: {
@@ -53,7 +54,7 @@ const LiputanKegiatanForm = ({ action, id }) => {
       waktu_mulai: "",
       waktu_selesai: "",
       tempat: "",
-      lampiran: "",
+      lampiran: null,
       status: "",
     },
   });
@@ -88,7 +89,7 @@ const LiputanKegiatanForm = ({ action, id }) => {
         status,
       } = data;
 
-      setPreview(lampiran);
+      setDetail(data);
 
       form.reset({
         nama,
@@ -112,7 +113,7 @@ const LiputanKegiatanForm = ({ action, id }) => {
   };
 
   useEffect(() => {
-    getDetailLiputanKegiatan();
+    getDetailLiputanKegiatan(id);
   }, []);
 
   const onSubmit = async (data) => {
@@ -141,6 +142,40 @@ const LiputanKegiatanForm = ({ action, id }) => {
           <SkeletonForm />
         ) : (
           <>
+            <div className="flex justify-center">
+              <FormField
+                control={form.control}
+                name="status"
+                render={({ field }) => (
+                  <FormItem className="w-1/6">
+                    <FormLabel
+                      htmlFor="status"
+                      className="block text-center font-bold"
+                    >
+                      STATUS
+                    </FormLabel>
+                    <FormControl>
+                      <Select
+                        value={field.value}
+                        onValueChange={(value) => field.onChange(value)}
+                        disabled={action === "detail"}
+                      >
+                        <SelectTrigger className="w-full border rounded-md px-3 py-2 bg-white text-gray-900 focus:ring-1">
+                          <SelectValue placeholder="" />
+                        </SelectTrigger>
+                        <SelectContent className="bg-white border rounded-md shadow-md">
+                          <SelectItem value="pending">Menunggu</SelectItem>
+                          <SelectItem value="accepted">Diterima</SelectItem>
+                          <SelectItem value="rejected">Ditolak</SelectItem>
+                        </SelectContent>
+                      </Select>
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+            </div>
+
             <FormField
               control={form.control}
               name="nama"
@@ -153,7 +188,7 @@ const LiputanKegiatanForm = ({ action, id }) => {
                     <Input
                       {...field}
                       id="input-liputan-kegiatan-name"
-                      className="disabled:opacity-100"
+                      className="disabled:opacity-50"
                       disabled={action === "detail"}
                     />
                   </FormControl>
@@ -171,6 +206,7 @@ const LiputanKegiatanForm = ({ action, id }) => {
                   </FormLabel>
                   <FormControl>
                     <Select
+                      value={field.value}
                       onValueChange={(value) => field.onChange(value)}
                       disabled={action === "detail"}
                     >
@@ -178,89 +214,93 @@ const LiputanKegiatanForm = ({ action, id }) => {
                         <SelectValue placeholder="Pilih Unit/Prodi/Ormawa" />
                       </SelectTrigger>
                       <SelectContent className="bg-white border rounded-md shadow-md">
-                        <SelectItem value="ti">
+                        <SelectItem value="Prodi - Teknik Informatika">
                           Prodi - Teknik Informatika
                         </SelectItem>
-                        <SelectItem value="rpl">
+                        <SelectItem value="Prodi - Rekayasa Perangkat Lunak">
                           Prodi - Rekayasa Perangkat Lunak
                         </SelectItem>
-                        <SelectItem value="si">
+                        <SelectItem value="Prodi - Sistem Informasi">
                           Prodi - Sistem Informasi
                         </SelectItem>
-                        <SelectItem value="ds">Prodi - Data Science</SelectItem>
-                        <SelectItem value="d3tt">
+                        <SelectItem value="Prodi - Data Science">
+                          Prodi - Data Science
+                        </SelectItem>
+                        <SelectItem value="Prodi - D3 Teknik Telekomunikasi">
                           Prodi - D3 Teknik Telekomunikasi
                         </SelectItem>
-                        <SelectItem value="s1tt">
+                        <SelectItem value="Prodi - S1 Teknik Telekomunikasi">
                           Prodi - S1 Teknik Telekomunikasi
                         </SelectItem>
-                        <SelectItem value="tb">
+                        <SelectItem value="Prodi - Teknik Biomedis">
                           Prodi - Teknik Biomedis
                         </SelectItem>
-                        <SelectItem value="te">
+                        <SelectItem value="Prodi - Teknik Elektro">
                           Prodi - Teknik Elektro
                         </SelectItem>
-                        <SelectItem value="tp">
+                        <SelectItem value="Prodi - Teknologi Pangan">
                           Prodi - Teknologi Pangan
                         </SelectItem>
-                        <SelectItem value="dkv">
+                        <SelectItem value="Prodi - Desain Komunikasi Visual">
                           Prodi - Desain Komunikasi Visual
                         </SelectItem>
-                        <SelectItem value="tii">
+                        <SelectItem value="Prodi - Teknik Industri">
                           Prodi - Teknik Industri
                         </SelectItem>
-                        <SelectItem value="bd">
+                        <SelectItem value="Prodi - Bisnis Digital">
                           Prodi - Bisnis Digital
                         </SelectItem>
-                        <SelectItem value="dp">
+                        <SelectItem value="Prodi - Desain Produk">
                           Prodi - Desain Produk
                         </SelectItem>
-                        <SelectItem value="tl">
+                        <SelectItem value="Prodi - Teknik Logistik">
                           Prodi - Teknik Logistik
                         </SelectItem>
-                        <SelectItem value="bidang1-lppm">
+                        <SelectItem value="Bidang I - LPPM">
                           Bidang I - LPPM
                         </SelectItem>
-                        <SelectItem value="bidang1-inovasi">
+                        <SelectItem value="Bidang I - Sentra Inovasi">
                           Bidang I - Sentra Inovasi
                         </SelectItem>
-                        <SelectItem value="bidang1-perpus">
+                        <SelectItem value="Bidang I - Perpustakaan">
                           Bidang I - Perpustakaan
                         </SelectItem>
-                        <SelectItem value="bidang1-akademik">
+                        <SelectItem value="Bidang I - Akademik & Pusat Bahasa">
                           Bidang I - Akademik & Pusat Bahasa
                         </SelectItem>
-                        <SelectItem value="bidang2-sdm">
+                        <SelectItem value="Bidang II - SDM">
                           Bidang II - SDM
                         </SelectItem>
-                        <SelectItem value="bidang2-keuangan">
+                        <SelectItem value="Bidang II - Keuangan">
                           Bidang II - Keuangan
                         </SelectItem>
-                        <SelectItem value="bidang2-sistefo">
+                        <SelectItem value="Bidang II - Sistefo">
                           Bidang II - Sistefo
                         </SelectItem>
-                        <SelectItem value="bidang2-logistik">
+                        <SelectItem value="Bidang II - Logistik">
                           Bidang II - Logistik
                         </SelectItem>
-                        <SelectItem value="bidang3-pemasaran">
+                        <SelectItem value="Bidang III - Pemasaran & Admisi">
                           Bidang III - Pemasaran & Admisi
                         </SelectItem>
-                        <SelectItem value="bidang3-karir">
+                        <SelectItem value="Bidang III - Karir & Konseling">
                           Bidang III - Karir & Konseling
                         </SelectItem>
-                        <SelectItem value="bidang3-kemahasiswaan">
+                        <SelectItem value="Bidang III - Kemahasiswaan">
                           Bidang III - Kemahasiswaan
                         </SelectItem>
-                        <SelectItem value="rektorat-sekpim">
+                        <SelectItem value="Bidang Rektorat - Sekpim dan SAI">
                           Bidang Rektorat - Sekpim dan SAI
                         </SelectItem>
-                        <SelectItem value="rektorat-mutu">
+                        <SelectItem value="Bidang Rektorat - Satuan Penjamin Mutu">
                           Bidang Rektorat - Satuan Penjamin Mutu
                         </SelectItem>
-                        <SelectItem value="rektorat-kui">
+                        <SelectItem value="Bidang Rektorat - KUI">
                           Bidang Rektorat - KUI
                         </SelectItem>
-                        <SelectItem value="ormawa-bem">Ormawa - BEM</SelectItem>
+                        <SelectItem value="Ormawa - BEM">
+                          Ormawa - BEM
+                        </SelectItem>
                       </SelectContent>
                     </Select>
                   </FormControl>
@@ -281,7 +321,7 @@ const LiputanKegiatanForm = ({ action, id }) => {
                     <Input
                       {...field}
                       id="input-liputan-kegiatan-nomorwa"
-                      className="disabled:opacity-100"
+                      className="disabled:opacity-50"
                       disabled={action === "detail"}
                     />
                   </FormControl>
@@ -301,7 +341,7 @@ const LiputanKegiatanForm = ({ action, id }) => {
                     <Input
                       {...field}
                       id="input-liputan-kegiatan-acara"
-                      className="disabled:opacity-100"
+                      className="disabled:opacity-50"
                       disabled={action === "detail"}
                     />
                   </FormControl>
@@ -318,10 +358,10 @@ const LiputanKegiatanForm = ({ action, id }) => {
                     Deskripsi
                   </FormLabel>
                   <FormControl>
-                  <Textarea
+                    <Textarea
                       {...field}
-                      id="input-fundraise-description"
-                      className="min-h-[100px] disabled:opacity-100"
+                      id="input-liputan-kegiatan-deskripsi"
+                      className="min-h-[100px] disabled:opacity-50"
                       disabled={action === "detail"}
                     />
                   </FormControl>
@@ -419,7 +459,7 @@ const LiputanKegiatanForm = ({ action, id }) => {
                         {...field}
                         type="time"
                         id="input-liputan-kegiatan-waktu_mulai"
-                        className="disabled:opacity-100"
+                        className="disabled:opacity-50"
                         disabled={action === "detail"}
                       />
                     </FormControl>
@@ -440,7 +480,7 @@ const LiputanKegiatanForm = ({ action, id }) => {
                         {...field}
                         type="time"
                         id="input-liputan-kegiatan-waktu_selesai"
-                        className="disabled:opacity-100"
+                        className="disabled:opacity-50"
                         disabled={action === "detail"}
                       />
                     </FormControl>
@@ -462,7 +502,7 @@ const LiputanKegiatanForm = ({ action, id }) => {
                     <Input
                       {...field}
                       id="input-liputan-kegiatan-tempat"
-                      className="disabled:opacity-100"
+                      className="disabled:opacity-50"
                       disabled={action === "detail"}
                     />
                   </FormControl>
@@ -476,49 +516,62 @@ const LiputanKegiatanForm = ({ action, id }) => {
               name="lampiran"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel htmlFor="input-lampiran-lampiran">
-                    Lampiran
-                  </FormLabel>
+                  <FormLabel htmlFor="input-lampiran">Lampiran</FormLabel>
+                  {detail?.lampiran && (
+                    <div className="mt-2 text-sm text-gray-600">
+                      <div className="flex items-center gap-3">
+                        <span>{detail.lampiran}</span>
+                        <a
+                          href={`${import.meta.env.VITE_BASE_URL}/uploads/${detail.lampiran}`}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="text-sm"
+                          download
+                        >
+                          <ArrowDownToLine className="text-blue-700"/>
+                        </a>
+                      </div>
+                    </div>
+                  )}
                   <FormControl>
-                    <FileInput
-                      preview={preview}
-                      id="input-lampiran-lampiran"
-                      disabled={action === "detail"}
-                      onChange={(e) => {
-                        field.onChange(e.target.files[0]);
-
-                        if (action !== "detail") {
-                          setPreview(
-                            e.target.files[0]
-                              ? URL.createObjectURL(e.target.files[0])
-                              : null
-                          );
-                        }
-                      }}
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-
-            <FormField
-              control={form.control}
-              name="status"
-              render={({ field }) => (
-                <FormItem className="w-full">
-                  <FormLabel htmlFor="status">Status</FormLabel>
-                  <FormControl>
-                    <select
-                      {...field}
-                      id="status"
-                      className="border rounded-md px-3 py-2 w-full"
-                      disabled={action === "detail"}
-                    >
-                      <option value="pending">Menunggu</option>
-                      <option value="accepted">Diterima</option>
-                      <option value="rejected">Ditolak</option>
-                    </select>
+                  {action !== "detail" && (
+                    <>
+                      <FileInput
+                        id="input-lampiran"
+                        disabled={action === "detail"}
+                        onChange={(e) => {
+                          const file = e.target.files[0];
+                          field.onChange(file);
+                          if (action !== "detail") {
+                            setFileInfo(
+                              file
+                                ? {
+                                    name: file.name,
+                                    size: (file.size / 1024).toFixed(2),
+                                  }
+                                : null
+                            );
+                          }
+                        }}
+                      />
+                      {fileInfo && (
+                        <div className="mt-2 text-sm text-gray-600">
+                          <p>
+                            <span className="font-medium text-gray-800">
+                              Name:
+                            </span>{" "}
+                            {fileInfo.name}
+                          </p>
+                          <p>
+                            <span className="font-medium text-gray-800">
+                              Size:
+                            </span>{" "}
+                            {fileInfo.size} KB
+                          </p>
+                        </div>
+                      )}
+                    </>
+                  )}
                   </FormControl>
                   <FormMessage />
                 </FormItem>
