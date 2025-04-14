@@ -8,6 +8,7 @@ import {
 } from "lucide-react";
 import { NavLink } from "react-router-dom";
 import NavbarUser from "@/components/layout/navbar-user";
+import WhatsAppButton from "./components/whats-app";
 
 function DashboardUser() {
   return (
@@ -66,6 +67,7 @@ function DashboardUser() {
           </div>
         </a>
       </div>
+      <WhatsAppButton/>
     </div>
   );
 }
