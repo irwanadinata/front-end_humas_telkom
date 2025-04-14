@@ -1,5 +1,5 @@
 import Swal from "sweetalert2";
-import { CalendarIcon, Loader2 } from "lucide-react";
+import { ArrowDownToLine, CalendarIcon, Loader2 } from "lucide-react";
 import { useForm } from "react-hook-form";
 import { useEffect, useState } from "react";
 import { Input } from "@/components/ui/input";
@@ -20,6 +20,13 @@ import {
   editPeminjamanAlat,
 } from "@/utils/api/peminjaman-alat/index";
 import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import {
   Form,
   FormControl,
   FormField,
@@ -31,7 +38,8 @@ import {
 const PeminjamanAlatForm = ({ action, id }) => {
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
-  const [preview, setPreview] = useState("");
+  const [fileInfo, setFileInfo] = useState(null);
+  const [detail, setDetail] = useState(null);
   const [processing, setProcessing] = useState(false);
   const form = useForm({
     defaultValues: {
@@ -42,8 +50,8 @@ const PeminjamanAlatForm = ({ action, id }) => {
       keperluan: "",
       tanggal_mulai: "",
       tanggal_selesai: "",
-      lampiran: "",
-      status: "pending",
+      lampiran: null,
+      status: "",
     },
   });
 
@@ -74,7 +82,7 @@ const PeminjamanAlatForm = ({ action, id }) => {
         status,
       } = data;
 
-      setPreview(lampiran);
+      setDetail(data);
 
       form.reset({
         nama,
@@ -95,25 +103,24 @@ const PeminjamanAlatForm = ({ action, id }) => {
   };
 
   useEffect(() => {
-      getDetailPeminjamanAlat(id);
+    getDetailPeminjamanAlat(id);
   }, []);
 
   const onSubmit = async (data) => {
     const editedData = { ...data };
     setProcessing(true);
-  
+
     try {
       const message = await editPeminjamanAlat(id, editedData);
       navigate("/admin/peminjaman-alat");
       Toast.fire({ icon: "success", title: message });
     } catch (error) {
       navigate("/admin/peminjaman-alat");
-      Toast.fire({ icon: "error", title: error});
+      Toast.fire({ icon: "error", title: error });
     } finally {
       setProcessing(false);
     }
   };
-  
 
   return (
     <Form {...form}>
@@ -125,6 +132,40 @@ const PeminjamanAlatForm = ({ action, id }) => {
           <SkeletonForm />
         ) : (
           <>
+            <div className="flex justify-center">
+              <FormField
+                control={form.control}
+                name="status"
+                render={({ field }) => (
+                  <FormItem className="w-1/6">
+                    <FormLabel
+                      htmlFor="status"
+                      className="block text-center font-bold"
+                    >
+                      STATUS
+                    </FormLabel>
+                    <FormControl>
+                      <Select
+                        value={field.value}
+                        onValueChange={(value) => field.onChange(value)}
+                        disabled={action === "detail"}
+                      >
+                        <SelectTrigger className="w-full border rounded-md px-3 py-2 bg-white text-gray-900 focus:ring-1">
+                          <SelectValue placeholder="" />
+                        </SelectTrigger>
+                        <SelectContent className="bg-white border rounded-md shadow-md">
+                          <SelectItem value="pending">Menunggu</SelectItem>
+                          <SelectItem value="returned">Dikembalikan</SelectItem>
+                          <SelectItem value="borrowed">Dipinjam</SelectItem>
+                        </SelectContent>
+                      </Select>
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+            </div>
+
             <FormField
               control={form.control}
               name="nama"
@@ -137,7 +178,7 @@ const PeminjamanAlatForm = ({ action, id }) => {
                     <Input
                       {...field}
                       id="input-peminjaman-alat-name"
-                      className="disabled:opacity-100"
+                      className="disabled:opacity-50"
                       disabled={action === "detail"}
                     />
                   </FormControl>
@@ -155,7 +196,7 @@ const PeminjamanAlatForm = ({ action, id }) => {
                     <Input
                       {...field}
                       id="input-peminjaman-alat-nomorwa"
-                      className="disabled:opacity-100"
+                      className="disabled:opacity-50"
                       disabled={action === "detail"}
                     />
                   </FormControl>
@@ -175,7 +216,7 @@ const PeminjamanAlatForm = ({ action, id }) => {
                     <Input
                       {...field}
                       id="input-peminjaman-alat-nomorwa"
-                      className="disabled:opacity-100"
+                      className="disabled:opacity-50"
                       disabled={action === "detail"}
                     />
                   </FormControl>
@@ -195,7 +236,7 @@ const PeminjamanAlatForm = ({ action, id }) => {
                     <Input
                       {...field}
                       id="input-peminjaman-alat-nomorwa"
-                      className="disabled:opacity-100"
+                      className="disabled:opacity-50"
                       disabled={action === "detail"}
                     />
                   </FormControl>
@@ -215,7 +256,7 @@ const PeminjamanAlatForm = ({ action, id }) => {
                     <Input
                       {...field}
                       id="input-peminjaman-alat-keperluan"
-                      className="disabled:opacity-100"
+                      className="disabled:opacity-50"
                       disabled={action === "detail"}
                     />
                   </FormControl>
@@ -304,49 +345,64 @@ const PeminjamanAlatForm = ({ action, id }) => {
               name="lampiran"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel htmlFor="input-lampiran-lampiran">
-                    Lampiran
-                  </FormLabel>
+                  <FormLabel htmlFor="input-lampiran">Lampiran</FormLabel>
+                  {detail?.lampiran && (
+                    <div className="mt-2 text-sm text-gray-600">
+                      <div className="flex items-center gap-3">
+                        <span>{detail.lampiran}</span>
+                        <a
+                          href={`${import.meta.env.VITE_BASE_URL}/uploads/${
+                            detail.lampiran
+                          }`}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="text-sm"
+                          download
+                        >
+                          <ArrowDownToLine className="text-blue-700" />
+                        </a>
+                      </div>
+                    </div>
+                  )}
                   <FormControl>
-                    <FileInput
-                      preview={preview}
-                      id="input-lampiran-lampiran"
-                      disabled={action === "detail"}
-                      onChange={(e) => {
-                        field.onChange(e.target.files[0]);
-
-                        if (action !== "detail") {
-                          setPreview(
-                            e.target.files[0]
-                              ? URL.createObjectURL(e.target.files[0])
-                              : null
-                          );
-                        }
-                      }}
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-
-            <FormField
-              control={form.control}
-              name="status"
-              render={({ field }) => (
-                <FormItem className="w-full">
-                  <FormLabel htmlFor="status">Status</FormLabel>
-                  <FormControl>
-                    <select
-                      {...field}
-                      id="status"
-                      className="border rounded-md px-3 py-2 w-full"
-                      disabled={action === "detail"}
-                    >
-                      <option value="pending">Menunggu</option>
-                      <option value="accepted">Diterima</option>
-                      <option value="rejected">Ditolak</option>
-                    </select>
+                    {action !== "detail" && (
+                      <>
+                        <FileInput
+                          id="input-lampiran"
+                          disabled={action === "detail"}
+                          onChange={(e) => {
+                            const file = e.target.files[0];
+                            field.onChange(file);
+                            if (action !== "detail") {
+                              setFileInfo(
+                                file
+                                  ? {
+                                      name: file.name,
+                                      size: (file.size / 1024).toFixed(2),
+                                    }
+                                  : null
+                              );
+                            }
+                          }}
+                        />
+                        {fileInfo && (
+                          <div className="mt-2 text-sm text-gray-600">
+                            <p>
+                              <span className="font-medium text-gray-800">
+                                Name:
+                              </span>{" "}
+                              {fileInfo.name}
+                            </p>
+                            <p>
+                              <span className="font-medium text-gray-800">
+                                Size:
+                              </span>{" "}
+                              {fileInfo.size} KB
+                            </p>
+                          </div>
+                        )}
+                      </>
+                    )}
                   </FormControl>
                   <FormMessage />
                 </FormItem>
