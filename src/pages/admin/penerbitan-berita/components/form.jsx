@@ -25,6 +25,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { Textarea } from "@/components/ui/textarea";
 
 const PenerbitanBeritaForm = ({ action, id }) => {
   const navigate = useNavigate();
@@ -41,7 +42,7 @@ const PenerbitanBeritaForm = ({ action, id }) => {
       media: "",
       linkmateri: "",
       judul: "",
-      status: "pending",
+      status: "",
     },
   });
 
@@ -124,19 +125,53 @@ const PenerbitanBeritaForm = ({ action, id }) => {
           <SkeletonForm />
         ) : (
           <>
+            <div className="flex justify-center">
+              <FormField
+                control={form.control}
+                name="status"
+                render={({ field }) => (
+                  <FormItem className="w-1/6">
+                    <FormLabel
+                      htmlFor="status"
+                      className="block text-center font-bold"
+                    >
+                      STATUS
+                    </FormLabel>
+                    <FormControl>
+                      <Select
+                        value={field.value}
+                        onValueChange={(value) => field.onChange(value)}
+                        disabled={action === "detail"}
+                      >
+                        <SelectTrigger className="w-full border rounded-md px-3 py-2 bg-white text-gray-900 focus:ring-1">
+                          <SelectValue placeholder="" />
+                        </SelectTrigger>
+                        <SelectContent className="bg-white border rounded-md shadow-md">
+                          <SelectItem value="pending">Menunggu</SelectItem>
+                          <SelectItem value="accepted">Diterima</SelectItem>
+                          <SelectItem value="rejected">Ditolak</SelectItem>
+                        </SelectContent>
+                      </Select>
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+            </div>
+
             <FormField
               control={form.control}
-              name="name"
+              name="nama"
               render={({ field }) => (
                 <FormItem className="w-full">
-                  <FormLabel htmlFor="input-penerbitan-berita-name">
+                  <FormLabel htmlFor="input-penerbitan-berita-nama">
                     Nama Lengkap
                   </FormLabel>
                   <FormControl>
                     <Input
                       {...field}
-                      id="input-penerbitan-berita-name"
-                      className="disabled:opacity-100"
+                      id="input-penerbitan-berita-nama"
+                      className="disabled:opacity-50"
                       disabled={action === "detail"}
                     />
                   </FormControl>
@@ -156,7 +191,7 @@ const PenerbitanBeritaForm = ({ action, id }) => {
                     <Input
                       {...field}
                       id="input-penerbitan-berita-email"
-                      className="disabled:opacity-100"
+                      className="disabled:opacity-50"
                       disabled={action === "detail"}
                     />
                   </FormControl>
@@ -174,6 +209,7 @@ const PenerbitanBeritaForm = ({ action, id }) => {
                   </FormLabel>
                   <FormControl>
                     <Select
+                      value={field.value}
                       onValueChange={(value) => field.onChange(value)}
                       disabled={action === "detail"}
                     >
@@ -218,7 +254,7 @@ const PenerbitanBeritaForm = ({ action, id }) => {
                     <Input
                       {...field}
                       id="input-penerbitan-berita-unit"
-                      className="disabled:opacity-100"
+                      className="disabled:opacity-50"
                       disabled={action === "detail"}
                     />
                   </FormControl>
@@ -238,7 +274,7 @@ const PenerbitanBeritaForm = ({ action, id }) => {
                     <Input
                       {...field}
                       id="input-penerbitan-berita-nomor"
-                      className="disabled:opacity-100"
+                      className="disabled:opacity-50"
                       disabled={action === "detail"}
                     />
                   </FormControl>
@@ -255,10 +291,10 @@ const PenerbitanBeritaForm = ({ action, id }) => {
                     Judul Berita
                   </FormLabel>
                   <FormControl>
-                    <Input
+                    <Textarea
                       {...field}
                       id="input-penerbitan-berita-judul"
-                      className="disabled:opacity-100"
+                      className="min-h-[50px] disabled:opacity-50"
                       disabled={action === "detail"}
                     />
                   </FormControl>
@@ -276,6 +312,7 @@ const PenerbitanBeritaForm = ({ action, id }) => {
                   </FormLabel>
                   <FormControl>
                     <Select
+                      value={field.value}
                       onValueChange={(value) => field.onChange(value)}
                       disabled={action === "detail"}
                     >
@@ -316,6 +353,7 @@ const PenerbitanBeritaForm = ({ action, id }) => {
                   <FormLabel htmlFor="media">Media Publikasi</FormLabel>
                   <FormControl>
                     <Select
+                      value={field.value}
                       onValueChange={(value) => field.onChange(value)}
                       disabled={action === "detail"}
                     >
@@ -359,38 +397,16 @@ const PenerbitanBeritaForm = ({ action, id }) => {
               name="linkmateri"
               render={({ field }) => (
                 <FormItem className="w-full">
-                  <FormLabel htmlFor="link_materi">
+                  <FormLabel htmlFor="input-link-materi-deskripsi">
                     Link Materi & Dokumentasi
                   </FormLabel>
                   <FormControl>
-                    <Input
+                    <Textarea
                       {...field}
-                      id="link_materi"
-                      className="disabled:opacity-100"
+                      id="input-link-materi-deskripsi"
+                      className="min-h-[100px] disabled:opacity-50"
                       disabled={action === "detail"}
                     />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            <FormField
-              control={form.control}
-              name="status"
-              render={({ field }) => (
-                <FormItem className="w-full">
-                  <FormLabel htmlFor="status">Status</FormLabel>
-                  <FormControl>
-                    <select
-                      {...field}
-                      id="status"
-                      className="border rounded-md px-3 py-2 w-full"
-                      disabled={action === "detail"}
-                    >
-                      <option value="pending">Menunggu</option>
-                      <option value="accepted">Diterima</option>
-                      <option value="rejected">Ditolak</option>
-                    </select>
                   </FormControl>
                   <FormMessage />
                 </FormItem>

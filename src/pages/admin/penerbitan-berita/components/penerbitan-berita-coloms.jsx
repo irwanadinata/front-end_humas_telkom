@@ -19,20 +19,12 @@ export const columns = [
     accessorKey: "peran",
   },
   {
-    header: "Unit/Prodi",
-    accessorKey: "status",
-  },
-  {
     header: "Nomor WA",
     accessorKey: "nomorwa",
   },
   {
-    header: "Email",
-    accessorKey: "email",
-  },
-  {
     header: "Judul",
-    accessorKey: "lampiran",
+    accessorKey: "judul",
   },
   {
     header: "Materi",
@@ -41,10 +33,6 @@ export const columns = [
   {
     header: "Media Publikasi",
     accessorKey: "media",
-  },
-  {
-    header: "Link Materi",
-    accessorKey: "linkmateri",
   },
   {
     header: "Status",
