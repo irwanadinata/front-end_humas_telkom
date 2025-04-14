@@ -25,13 +25,16 @@ import { id as Id } from "date-fns/locale";
 import { Input } from "@/components/ui/input";
 import FileInput from "@/components/ui/input-file";
 import Swal from "sweetalert2";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { peminjamanAlatSchema } from "@/utils/api/peminjaman-alat";
 
 function PeminjamanAlatUser() {
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
-  const [preview, setPreview] = useState("");
+  const [fileInfo, setFileInfo] = useState(null);
 
   const form = useForm({
+    resolver: zodResolver(peminjamanAlatSchema),
     defaultValues: {
       nama: "",
       nim: "",
@@ -46,8 +49,8 @@ function PeminjamanAlatUser() {
   });
 
   const onSubmit = async (data) => {
-    console.log(data);
     setLoading(true);
+    console.log(data)
 
     try {
       const message = await addPeminjamanAlat(data);
@@ -62,7 +65,7 @@ function PeminjamanAlatUser() {
             .classList.add("bg-[#bf131d]", "hover:bg-[#a8393b]", "text-white");
         },
       });
-      navigate("/user/peminjaman-alat");
+      navigate("/user/history");
     } catch (error) {
       const errorMessage = error.message;
       Swal.fire({
@@ -95,13 +98,13 @@ function PeminjamanAlatUser() {
             name="nama"
             render={({ field }) => (
               <FormItem className="w-full">
-                <FormLabel htmlFor="input-peminjaman-alat-name">
+                <FormLabel htmlFor="input-peminjaman-alat-nama" className="text-[#000000]">
                   Nama Lengkap
                 </FormLabel>
                 <FormControl>
                   <Input
                     {...field}
-                    id="input-peminjaman-alat-name"
+                    id="input-peminjaman-alat-nama"
                     className="disabled:opacity-100"
                   />
                 </FormControl>
@@ -114,7 +117,7 @@ function PeminjamanAlatUser() {
             name="nim"
             render={({ field }) => (
               <FormItem className="w-full">
-                <FormLabel htmlFor="input-peminjaman-alat-nim">NIM</FormLabel>
+                <FormLabel htmlFor="input-peminjaman-alat-nim" className="text-[#000000]">NIM</FormLabel>
                 <FormControl>
                   <Input
                     {...field}
@@ -131,7 +134,7 @@ function PeminjamanAlatUser() {
             name="unit"
             render={({ field }) => (
               <FormItem className="w-full">
-                <FormLabel htmlFor="input-peminjaman-alat-unit">
+                <FormLabel htmlFor="input-peminjaman-alat-unit" className="text-[#000000]">
                   Unit/Prodi/Ormawa
                 </FormLabel>
                 <FormControl>
@@ -150,7 +153,7 @@ function PeminjamanAlatUser() {
             name="nomorwa"
             render={({ field }) => (
               <FormItem>
-                <FormLabel htmlFor="input-peminjaman-alat-nomorwa">
+                <FormLabel htmlFor="input-peminjaman-alat-nomorwa" className="text-[#000000]">
                   Nomor WhatsApp
                 </FormLabel>
                 <FormControl>
@@ -169,7 +172,7 @@ function PeminjamanAlatUser() {
             name="keperluan"
             render={({ field }) => (
               <FormItem className="w-full">
-                <FormLabel htmlFor="input-peminjaman-alat-keperluan">
+                <FormLabel htmlFor="input-peminjaman-alat-keperluan" className="text-[#000000]">
                   Keperluan
                 </FormLabel>
                 <FormControl>
@@ -189,7 +192,7 @@ function PeminjamanAlatUser() {
               name="tanggal_mulai"
               render={({ field }) => (
                 <FormItem className="w-full">
-                  <FormLabel>Tanggal Mulai</FormLabel>
+                  <FormLabel className="text-[#000000]">Tanggal Mulai</FormLabel>
                   <Popover>
                     <PopoverTrigger asChild>
                       <Button variant="outline" className="w-full">
@@ -220,7 +223,7 @@ function PeminjamanAlatUser() {
               name="tanggal_selesai"
               render={({ field }) => (
                 <FormItem className="w-full">
-                  <FormLabel>Tanggal Selesai</FormLabel>
+                  <FormLabel className="text-[#000000]">Tanggal Selesai</FormLabel>
                   <Popover>
                     <PopoverTrigger asChild>
                       <Button variant="outline" className="w-full">
@@ -252,22 +255,43 @@ function PeminjamanAlatUser() {
             name="lampiran"
             render={({ field }) => (
               <FormItem>
-                <FormLabel htmlFor="input-lampiran-lampiran">
-                  Lampiran
+                <FormLabel htmlFor="input-lampiran" className="text-[#000000]">
+                  Lampiran (<small>Dokumen Max 500 KB</small>)
                 </FormLabel>
                 <FormControl>
-                  <FileInput
-                    preview={preview}
-                    id="input-lampiran-lampiran"
-                    onChange={(e) => {
-                      field.onChange(e.target.files[0]);
-                      setPreview(
-                        e.target.files[0]
-                          ? URL.createObjectURL(e.target.files[0])
-                          : ""
-                      );
-                    }}
-                  />
+                  <>
+                    <FileInput
+                      id="input-lampiran"
+                      onChange={(e) => {
+                        const file = e.target.files[0];
+                        field.onChange(file);
+                        setFileInfo(
+                          file
+                            ? {
+                                name: file.name,
+                                size: (file.size / 1024).toFixed(2),
+                              }
+                            : null
+                        );
+                      }}
+                    />
+                    {fileInfo && (
+                      <div className="mt-2 text-sm text-gray-600">
+                        <p>
+                          <span className="font-medium text-gray-800">
+                            Name:
+                          </span>{" "}
+                          {fileInfo.name}
+                        </p>
+                        <p>
+                          <span className="font-medium text-gray-800">
+                            Size:
+                          </span>{" "}
+                          {fileInfo.size} KB
+                        </p>
+                      </div>
+                    )}
+                  </>
                 </FormControl>
                 <FormMessage />
               </FormItem>
