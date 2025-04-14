@@ -75,7 +75,7 @@ function LiputanKegiatanUser() {
             .classList.add("bg-[#bf131d]", "hover:bg-[#a8393b]", "text-white");
         },
       });
-      navigate("/user/liputan-kegiatan");
+      navigate("/user/history");
     } catch (error) {
       const errorMessage = error.message;
       Swal.fire({
@@ -430,7 +430,7 @@ function LiputanKegiatanUser() {
             name="lampiran"
             render={({ field }) => (
               <FormItem>
-                <FormLabel htmlFor="input-lampiran" className="text-[#000000]">Lampiran (<small>Poster/Dokumen Max 500kb</small>)</FormLabel>
+                <FormLabel htmlFor="input-lampiran" className="text-[#000000]">Lampiran (<small>Poster/Dokumen Max 500 KB</small>)</FormLabel>
                 <FormControl>
                   <>
                     <FileInput
