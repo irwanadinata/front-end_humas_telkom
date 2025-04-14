@@ -2,7 +2,7 @@ import axiosWithConfig from "../axiosWithConfig";
 
 export const getKemitraan = async () => {
   try {
-    const response = await axiosWithConfig.get(`kemitraan/admin`);
+    const response = await axiosWithConfig.get(`/kemitraan`);
     return response.data;
   } catch (error) {
     console.error(error);
@@ -23,18 +23,20 @@ export const getKemitraanById = async (id) => {
 export const addKemitraan = async ({ ...data }) => {
   try {
     await axiosWithConfig.post(
-      "kemitraan",
+      "/kemitraan",
       { ...data },
       {
         headers: {
-          "Content-Type": "application/json",
+          "Content-Type": "multipart/form-data",
         },
       }
     );
-    return "Berhasil menambah Kemitraan";
+    return "SUKSES menambah kemitraan";
   } catch (error) {
-    console.error(error);
-    throw error;
+    console.error("Error:", error);
+    const errorMessage =
+      error.response?.data?.message || "GAGAL menambah kemitraan";
+    throw new Error(errorMessage);
   }
 };
 

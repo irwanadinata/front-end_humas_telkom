@@ -2,7 +2,7 @@ import axiosWithConfig from "../axiosWithConfig";
 
 export const getPeminjamanAlat = async () => {
   try {
-    const response = await axiosWithConfig.get(`/peminjaman-alat/admin`);
+    const response = await axiosWithConfig.get(`/peminjaman-alat`);
     return response.data;
   } catch (error) {
     console.error(error);
@@ -27,14 +27,16 @@ export const addPeminjamanAlat = async ({ ...data }) => {
       { ...data },
       {
         headers: {
-          "Content-Type": "application/json",
+          "Content-Type": "multipart/form-data",
         },
       }
     );
-    return "Berhasil menambah peminjaman alat & inventaris";
+    return "SUKSES menambah peminjaman alat";
   } catch (error) {
-    console.error(error);
-    throw error;
+    console.error("Error:", error);
+    const errorMessage =
+      error.response?.data?.message || "GAGAL menambah peminjaman alat";
+    throw new Error(errorMessage);
   }
 };
 
@@ -47,7 +49,7 @@ export const editPeminjamanAlat = async (id, { ...data }) => {
       },
       {
         headers: {
-          "Content-Type": "application/json",
+          "Content-Type": "multipart/form-data",
         },
       }
     );

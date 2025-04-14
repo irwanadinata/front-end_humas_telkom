@@ -2,7 +2,7 @@ import axiosWithConfig from "../axiosWithConfig";
 
 export const getPenerbitanBerita = async () => {
   try {
-    const response = await axiosWithConfig.get(`/penerbitan-berita/admin`);
+    const response = await axiosWithConfig.get(`/penerbitan-berita`);
     return response.data;
   } catch (error) {
     console.error(error);
@@ -27,14 +27,16 @@ export const addPenerbitanBerita = async ({ ...data }) => {
       { ...data },
       {
         headers: {
-          "Content-Type": "application/json",
+          "Content-Type": "multipart/form-data",
         },
       }
     );
-    return "Berhasil menambah penerbitan-berita";
+    return "SUKSES menambah penerbitan berita";
   } catch (error) {
-    console.error(error);
-    throw error;
+    console.error("Error:", error);
+    const errorMessage =
+      error.response?.data?.message || "GAGAL menambah penerbitan berita";
+    throw new Error(errorMessage);
   }
 };
 
@@ -47,7 +49,7 @@ export const editPenerbitanBerita = async (id, { ...data }) => {
       },
       {
         headers: {
-          "Content-Type": "application/json",
+          "Content-Type": "multipart/form-data",
         },
       }
     );

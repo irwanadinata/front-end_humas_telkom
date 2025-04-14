@@ -1,2 +1,3 @@
 import { getPeminjamanAlat, getPeminjamanAlatById, addPeminjamanAlat, editPeminjamanAlat, deletePeminjamanAlat } from "./api";
-export { getPeminjamanAlat, getPeminjamanAlatById, addPeminjamanAlat, editPeminjamanAlat, deletePeminjamanAlat };
+import { peminjamanAlatSchema } from "./schema";
+export { getPeminjamanAlat, getPeminjamanAlatById, addPeminjamanAlat, editPeminjamanAlat, deletePeminjamanAlat, peminjamanAlatSchema };

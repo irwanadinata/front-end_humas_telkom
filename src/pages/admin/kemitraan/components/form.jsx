@@ -7,11 +7,9 @@ import { Textarea } from "@/components/ui/textarea";
 import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import SkeletonForm from "./skeleton/skeleton-form";
-import {
-  getKemitraanById,
-  addKemitraan,
-  editKemitraan,
-} from "@/utils/api/kemitraan/index";
+import FileInput from "@/components/ui/input-file";
+import { ArrowDownToLine } from "lucide-react";
+import { getKemitraanById, editKemitraan } from "@/utils/api/kemitraan/index";
 import {
   Form,
   FormControl,
@@ -20,19 +18,30 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 
 const KemitraanForm = ({ action, id }) => {
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
+  const [fileInfo, setFileInfo] = useState(null);
+  const [detail, setDetail] = useState(null);
   const [processing, setProcessing] = useState(false);
   const form = useForm({
     defaultValues: {
-      name: "",
+      nama: "",
       perusahaan: "",
-      posisi: "",   
+      posisi: "",
       email: "",
       nomorwa: "",
+      jeniskemitraan: "",
       deskripsi: "",
+      lampiran: null,
       status: "",
     },
   });
@@ -58,9 +67,13 @@ const KemitraanForm = ({ action, id }) => {
         posisi,
         email,
         nomorwa,
+        jeniskemitraan,
         deskripsi,
+        lampiran,
         status,
       } = data;
+
+      setDetail(data);
 
       form.reset({
         nama,
@@ -68,7 +81,9 @@ const KemitraanForm = ({ action, id }) => {
         posisi,
         email,
         nomorwa,
+        jeniskemitraan,
         deskripsi,
+        lampiran,
         status,
       });
       setLoading(false);
@@ -79,10 +94,8 @@ const KemitraanForm = ({ action, id }) => {
   };
 
   useEffect(() => {
-    if (action !== "add") {
-      getDetailKemitraan(id);
-    }
-  }, [id, action]);
+    getDetailKemitraan(id);
+  }, []);
 
   const onSubmit = async (data) => {
     const editedData = { ...data };
@@ -110,9 +123,42 @@ const KemitraanForm = ({ action, id }) => {
           <SkeletonForm />
         ) : (
           <>
+            <div className="flex justify-center">
+              <FormField
+                control={form.control}
+                name="status"
+                render={({ field }) => (
+                  <FormItem className="w-1/6">
+                    <FormLabel
+                      htmlFor="status"
+                      className="block text-center font-bold"
+                    >
+                      STATUS
+                    </FormLabel>
+                    <FormControl>
+                      <Select
+                        value={field.value}
+                        onValueChange={(value) => field.onChange(value)}
+                        disabled={action === "detail"}
+                      >
+                        <SelectTrigger className="w-full border rounded-md px-3 py-2 bg-white text-gray-900 focus:ring-1">
+                          <SelectValue placeholder="" />
+                        </SelectTrigger>
+                        <SelectContent className="bg-white border rounded-md shadow-md">
+                          <SelectItem value="pending">Menunggu</SelectItem>
+                          <SelectItem value="accepted">Diterima</SelectItem>
+                          <SelectItem value="rejected">Ditolak</SelectItem>
+                        </SelectContent>
+                      </Select>
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+            </div>
             <FormField
               control={form.control}
-              name="name"
+              name="nama"
               render={({ field }) => (
                 <FormItem className="w-full">
                   <FormLabel htmlFor="input-kemitraan-name">
@@ -122,7 +168,7 @@ const KemitraanForm = ({ action, id }) => {
                     <Input
                       {...field}
                       id="input-kemitraan-name"
-                      className="disabled:opacity-100"
+                      className="disabled:opacity-50"
                       disabled={action === "detail"}
                     />
                   </FormControl>
@@ -142,7 +188,7 @@ const KemitraanForm = ({ action, id }) => {
                     <Input
                       {...field}
                       id="input-kemitraan-perusahaan"
-                      className="disabled:opacity-100"
+                      className="disabled:opacity-50"
                       disabled={action === "detail"}
                     />
                   </FormControl>
@@ -160,7 +206,7 @@ const KemitraanForm = ({ action, id }) => {
                     <Input
                       {...field}
                       id="input-kemitraan-posisi"
-                      className="disabled:opacity-100"
+                      className="disabled:opacity-50"
                       disabled={action === "detail"}
                     />
                   </FormControl>
@@ -178,7 +224,7 @@ const KemitraanForm = ({ action, id }) => {
                     <Input
                       {...field}
                       id="input-kemitraan-email"
-                      className="disabled:opacity-100"
+                      className="disabled:opacity-50"
                       disabled={action === "detail"}
                     />
                   </FormControl>
@@ -198,7 +244,27 @@ const KemitraanForm = ({ action, id }) => {
                     <Input
                       {...field}
                       id="input-kemitraan-nomor"
-                      className="disabled:opacity-100"
+                      className="disabled:opacity-50"
+                      disabled={action === "detail"}
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="jeniskemitraan"
+              render={({ field }) => (
+                <FormItem className="w-full">
+                  <FormLabel htmlFor="input-kemitraan-jenis">
+                    Jenis Kemitraan
+                  </FormLabel>
+                  <FormControl>
+                    <Input
+                      {...field}
+                      id="input-kemitraan-jenis"
+                      className="disabled:opacity-50"
                       disabled={action === "detail"}
                     />
                   </FormControl>
@@ -218,7 +284,7 @@ const KemitraanForm = ({ action, id }) => {
                     <Textarea
                       {...field}
                       id="input-kemitraan-description"
-                      className="min-h-[100px] disabled:opacity-100"
+                      className="min-h-[100px] disabled:opacity-50"
                       disabled={action === "detail"}
                     />
                   </FormControl>
@@ -226,30 +292,74 @@ const KemitraanForm = ({ action, id }) => {
                 </FormItem>
               )}
             />
-
             <FormField
               control={form.control}
-              name="status"
+              name="lampiran"
               render={({ field }) => (
-                <FormItem className="w-full">
-                  <FormLabel htmlFor="status">Status</FormLabel>
+                <FormItem>
+                  <FormLabel htmlFor="input-lampiran">Lampiran</FormLabel>
+                  {detail?.lampiran && (
+                    <div className="mt-2 text-sm text-gray-600">
+                      <div className="flex items-center gap-3">
+                        <span>{detail.lampiran}</span>
+                        <a
+                          href={`${import.meta.env.VITE_BASE_URL}/uploads/${
+                            detail.lampiran
+                          }`}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="text-sm"
+                          download
+                        >
+                          <ArrowDownToLine className="text-blue-700" />
+                        </a>
+                      </div>
+                    </div>
+                  )}
                   <FormControl>
-                    <select
-                      {...field}
-                      id="status"
-                      className="border rounded-md px-3 py-2 w-full"
-                      disabled={action === "detail"}
-                    >
-                      <option value="pending">Menunggu</option>
-                      <option value="accepted">Diterima</option>
-                      <option value="rejected">Ditolak</option>
-                    </select>
+                    {action !== "detail" && (
+                      <>
+                        <FileInput
+                          id="input-lampiran"
+                          disabled={action === "detail"}
+                          onChange={(e) => {
+                            const file = e.target.files[0];
+                            field.onChange(file);
+                            if (action !== "detail") {
+                              setFileInfo(
+                                file
+                                  ? {
+                                      name: file.name,
+                                      size: (file.size / 1024).toFixed(2),
+                                    }
+                                  : null
+                              );
+                            }
+                          }}
+                        />
+                        {fileInfo && (
+                          <div className="mt-2 text-sm text-gray-600">
+                            <p>
+                              <span className="font-medium text-gray-800">
+                                Name:
+                              </span>{" "}
+                              {fileInfo.name}
+                            </p>
+                            <p>
+                              <span className="font-medium text-gray-800">
+                                Size:
+                              </span>{" "}
+                              {fileInfo.size} KB
+                            </p>
+                          </div>
+                        )}
+                      </>
+                    )}
                   </FormControl>
                   <FormMessage />
                 </FormItem>
               )}
             />
-
             <div className="flex justify-end gap-3 pt-5">
               <Button
                 size="sm"

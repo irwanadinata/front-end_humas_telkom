@@ -23,14 +23,18 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { Textarea } from "@/components/ui/textarea";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { penerbitanBeritaSchema } from "@/utils/api/penerbitan-berita";
 
 function PenerbitanBeritaUser() {
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
 
   const form = useForm({
+    resolver: zodResolver(penerbitanBeritaSchema),
     defaultValues: {
-      name: "",
+      nama: "",
       peran: "",
       unit: "",
       nomorwa: "",
@@ -44,7 +48,6 @@ function PenerbitanBeritaUser() {
   });
 
   const onSubmit = async (data) => {
-    console.log(data);
     setLoading(true);
 
     try {
@@ -60,7 +63,7 @@ function PenerbitanBeritaUser() {
             .classList.add("bg-[#bf131d]", "hover:bg-[#a8393b]", "text-white");
         },
       });
-      navigate("/user/penerbitan-berita");
+      navigate("/user/history");
     } catch (error) {
       const errorMessage = error.message;
       Swal.fire({
@@ -90,16 +93,16 @@ function PenerbitanBeritaUser() {
         >
           <FormField
             control={form.control}
-            name="name"
+            name="nama"
             render={({ field }) => (
               <FormItem className="w-full">
-                <FormLabel htmlFor="input-penerbitan-berita-name">
+                <FormLabel htmlFor="input-penerbitan-berita-nama" className="text-[#000000]">
                   Nama Lengkap
                 </FormLabel>
                 <FormControl>
                   <Input
                     {...field}
-                    id="input-penerbitan-berita-name"
+                    id="input-penerbitan-berita-nama"
                     className="disabled:opacity-100"
                   />
                 </FormControl>
@@ -112,7 +115,7 @@ function PenerbitanBeritaUser() {
             name="email"
             render={({ field }) => (
               <FormItem className="w-full">
-                <FormLabel htmlFor="input-penerbitan-berita-email">
+                <FormLabel htmlFor="input-penerbitan-berita-email" className="text-[#000000]">
                   Email
                 </FormLabel>
                 <FormControl>
@@ -131,7 +134,7 @@ function PenerbitanBeritaUser() {
             name="peran"
             render={({ field }) => (
               <FormItem className="w-full">
-                <FormLabel htmlFor="input-penerbitan-berita-peran">
+                <FormLabel htmlFor="input-penerbitan-berita-peran" className="text-[#000000]">
                   Peran
                 </FormLabel>
                 <FormControl>
@@ -170,7 +173,7 @@ function PenerbitanBeritaUser() {
             name="unit"
             render={({ field }) => (
               <FormItem>
-                <FormLabel htmlFor="input-penerbitan-berita-unit">
+                <FormLabel htmlFor="input-penerbitan-berita-unit" className="text-[#000000]">
                   Unit/Prodi/Ormawa
                 </FormLabel>
                 <FormControl>
@@ -189,7 +192,7 @@ function PenerbitanBeritaUser() {
             name="nomorwa"
             render={({ field }) => (
               <FormItem className="w-full">
-                <FormLabel htmlFor="input-penerbitan-berita-nomor">
+                <FormLabel htmlFor="input-penerbitan-berita-nomor" className="text-[#000000]">
                   Nomor WhatsApp
                 </FormLabel>
                 <FormControl>
@@ -208,14 +211,14 @@ function PenerbitanBeritaUser() {
             name="judul"
             render={({ field }) => (
               <FormItem className="w-full">
-                <FormLabel htmlFor="input-penerbitan-berita-judul">
+                <FormLabel htmlFor="input-penerbitan-berita-judul" className="text-[#000000]">
                   Judul Berita
                 </FormLabel>
                 <FormControl>
-                  <Input
+                  <Textarea
                     {...field}
-                    id="input-penerbitan-berita-judul"
-                    className="disabled:opacity-100"
+                    id="input-liputan-kegiatan-deskripsi"
+                    className="min-h-[50px] disabled:opacity-50"
                   />
                 </FormControl>
                 <FormMessage />
@@ -227,7 +230,7 @@ function PenerbitanBeritaUser() {
             name="materi"
             render={({ field }) => (
               <FormItem className="w-full">
-                <FormLabel htmlFor="input-penerbitan-berita-materi">
+                <FormLabel htmlFor="input-penerbitan-berita-materi" className="text-[#000000]">
                   Output Materi
                 </FormLabel>
                 <FormControl>
@@ -266,7 +269,7 @@ function PenerbitanBeritaUser() {
             name="media"
             render={({ field }) => (
               <FormItem className="w-full">
-                <FormLabel htmlFor="media">Media Publikasi</FormLabel>
+                <FormLabel htmlFor="media" className="text-[#000000]">Media Publikasi</FormLabel>
                 <FormControl>
                   <Select onValueChange={(value) => field.onChange(value)}>
                     <SelectTrigger className="w-full border rounded-md px-3 py-2 bg-white text-gray-900 focus:ring-1">
@@ -309,14 +312,14 @@ function PenerbitanBeritaUser() {
             name="linkmateri"
             render={({ field }) => (
               <FormItem className="w-full">
-                <FormLabel htmlFor="link_materi">
+                <FormLabel htmlFor="link_materi" className="text-[#000000]">
                   Link Materi & Dokumentasi
                 </FormLabel>
                 <FormControl>
-                  <Input
+                  <Textarea
                     {...field}
                     id="link_materi"
-                    className="disabled:opacity-100"
+                    className="min-h-[100px] disabled:opacity-50"
                   />
                 </FormControl>
                 <FormMessage />

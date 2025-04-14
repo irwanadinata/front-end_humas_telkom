@@ -1,2 +1,3 @@
 import { getKemitraan, getKemitraanById, addKemitraan, editKemitraan, deleteKemitraan } from "./api";
-export { getKemitraan, getKemitraanById, addKemitraan, editKemitraan, deleteKemitraan };
+import { kemitraanSchema } from "./schema";
+export {kemitraanSchema, getKemitraan, getKemitraanById, addKemitraan, editKemitraan, deleteKemitraan };

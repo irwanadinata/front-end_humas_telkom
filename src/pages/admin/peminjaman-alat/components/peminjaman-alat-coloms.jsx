@@ -4,6 +4,7 @@ import InfoIcon from "@/assets/icon/info";
 import { Button } from "@/components/ui/button";
 import ButtonDelete from "@/pages/admin/peminjaman-alat/components/alert-dialog";
 import { Badge } from "@/components/ui/badge";
+import { formatTanggal } from "@/utils/formatter/date";
 
 export const columns = [
   {
@@ -19,10 +20,6 @@ export const columns = [
     accessorKey: "nim",
   },
   {
-    header: "Unit/Prodi/Ormawa",
-    accessorKey: "unit",
-  },
-  {
     header: "Nomor WA",
     accessorKey: "nomorwa",
   },
@@ -31,8 +28,14 @@ export const columns = [
     accessorKey: "keperluan",
   },
   {
-    header: "Lampiran",
-    accessorKey: "lampiran",
+    header: "Tanggal Mulai",
+    accessorKey: "tanggal_mulai",
+    cell: ({ getValue }) => formatTanggal(getValue()),
+  },
+  {
+    header: "Tanggal Selesai",
+    accessorKey: "tanggal_selesai",
+    cell: ({ getValue }) => formatTanggal(getValue()),
   },
   {
     header: "Status",
@@ -45,11 +48,11 @@ export const columns = [
         case "pending":
           status = "Menunggu";
           break;
-        case "accepted":
-          status = "Diterima";
+        case "returned":
+          status = "Dikembalikan";
           break;
-        case "rejected":
-          status = "Ditolak";
+        case "borrowed":
+          status = "Dipinjam";
           break;
         default:
           status = originalStatus;
@@ -59,7 +62,7 @@ export const columns = [
       const badgeClass =
         status === "Menunggu"
           ? "border-[#FFAF0F] bg-white hover:bg-[#FFAF0F] text-[#FFAF0F] hover:text-white"
-          : status === "Ditolak"
+          : status === "Dipinjam"
           ? "border-[#E31F1F] bg-white hover:bg-[#E31F1F] text-[#E31F1F] hover:text-white"
           : "border-[#166648] bg-white hover:bg-[#166648] text-[#166648] hover:text-white";
 

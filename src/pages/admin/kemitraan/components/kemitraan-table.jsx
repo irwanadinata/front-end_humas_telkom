@@ -9,7 +9,7 @@ import {
 } from "@/components/ui/table";
 import SkeletonTable from "./skeleton/skeleton-table";
 
-function TableData({ columns, data, pagination, setPagination, loading}) {
+function TableData({ columns, data, loading}) {
   const table = useReactTable({
     data: data,
     columns,

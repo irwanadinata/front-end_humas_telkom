@@ -31,8 +31,8 @@ export const columns = [
     accessorKey: "nomorwa",
   },
   {
-    header: "Deskripsi",
-    accessorKey: "tanggal",
+    header: "Jenis Kemitraan",
+    accessorKey: "jeniskemitraan",
   },
   {
     header: "Status",
