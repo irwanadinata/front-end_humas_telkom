@@ -1,7 +1,6 @@
 import * as z from "zod";
 
 export const liputanKegiatanSchema = z.object({
-  status: z.enum(["pending", "accepted", "rejected"]),
   nama: z.string().min(1, "Nama harus diisi"),
   unit: z.string().min(1, "Unit/Prodi/Ormawa harus dipilih"),
   nomorwa: z
