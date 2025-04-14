@@ -9,24 +9,26 @@ const SkeletonTable = () => {
           <Skeleton className="h-5 w-5" />
         </TableCell>
         <TableCell>
-          <Skeleton className="h-3 w-32" />
-          <Skeleton className="h-3 w-32" />
+          <Skeleton className="h-3 w-20" />
         </TableCell>
         <TableCell>
-          <Skeleton className="h-3 w-22" />
+          <Skeleton className="h-3 w-20" />
         </TableCell>
         <TableCell>
-          <Skeleton className="h-3 w-22" />
+          <Skeleton className="h-3 w-20" />
         </TableCell>
         <TableCell>
-          <Skeleton className="h-3 w-22" />
+          <Skeleton className="h-6 w-48" />
         </TableCell>
         <TableCell>
-          <Skeleton className="h-3 w-22" />
+          <Skeleton className="h-3 w-20" />
         </TableCell>
         <TableCell>
-          <Skeleton className="h-3 w-22" />
-        </TableCell>  
+          <Skeleton className="h-3 w-20" />
+        </TableCell>
+        <TableCell>
+          <Skeleton className="h-6 w-28" />
+        </TableCell>
         <TableCell>
           <div className="flex gap-2">
             <Skeleton className="h-10 w-10" />
