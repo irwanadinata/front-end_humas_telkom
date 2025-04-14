@@ -1,2 +1,3 @@
 import { addPenerbitanBerita, getPenerbitanBerita, editPenerbitanBerita, getPenerbitanBeritaById, deletePenerbitanBerita } from "./api";
-export { addPenerbitanBerita, getPenerbitanBerita, editPenerbitanBerita, getPenerbitanBeritaById, deletePenerbitanBerita };
+import { penerbitanBeritaSchema } from "./schema";
+export {penerbitanBeritaSchema, addPenerbitanBerita, getPenerbitanBerita, editPenerbitanBerita, getPenerbitanBeritaById, deletePenerbitanBerita };
