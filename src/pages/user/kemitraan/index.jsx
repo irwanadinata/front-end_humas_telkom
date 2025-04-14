@@ -17,25 +17,30 @@ import { Input } from "@/components/ui/input";
 import { Loader2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
+import FileInput from "@/components/ui/input-file";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { kemitraanSchema } from "@/utils/api/kemitraan/index";
 
 function KemitraanUser() {
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
-
+  const [fileInfo, setFileInfo] = useState(null);
   const form = useForm({
+    resolver: zodResolver(kemitraanSchema),
     defaultValues: {
-      name: "",
+      nama: "",
       perusahaan: "",
-      posisi: "",   
+      posisi: "",
       email: "",
       nomorwa: "",
+      jeniskemitraan: "",
       deskripsi: "",
+      lampiran: null,
       status: "pending",
     },
   });
 
   const onSubmit = async (data) => {
-    console.log(data);
     setLoading(true);
 
     try {
@@ -51,7 +56,7 @@ function KemitraanUser() {
             .classList.add("bg-[#bf131d]", "hover:bg-[#a8393b]", "text-white");
         },
       });
-      navigate("/user/kemitraan");
+      navigate("/user/history");
     } catch (error) {
       const errorMessage = error.message;
       Swal.fire({
@@ -81,16 +86,16 @@ function KemitraanUser() {
         >
           <FormField
             control={form.control}
-            name="name"
+            name="nama"
             render={({ field }) => (
               <FormItem className="w-full">
-                <FormLabel htmlFor="input-kemitraan-name">
+                <FormLabel htmlFor="input-kemitraan-nama" className="text-[#000000]">
                   Nama Lengkap
                 </FormLabel>
                 <FormControl>
                   <Input
                     {...field}
-                    id="input-kemitraan-name"
+                    id="input-kemitraan-nama"
                     className="disabled:opacity-100"
                   />
                 </FormControl>
@@ -103,7 +108,7 @@ function KemitraanUser() {
             name="perusahaan"
             render={({ field }) => (
               <FormItem>
-                <FormLabel htmlFor="input-kemitraan-perusahaan">
+                <FormLabel htmlFor="input-kemitraan-perusahaan" className="text-[#000000]">
                   Perusahaan/Instansi
                 </FormLabel>
                 <FormControl>
@@ -122,9 +127,7 @@ function KemitraanUser() {
             name="posisi"
             render={({ field }) => (
               <FormItem>
-                <FormLabel htmlFor="input-kemitraan-posisi">
-                  Posisi
-                </FormLabel>
+                <FormLabel htmlFor="input-kemitraan-posisi" className="text-[#000000]">Posisi</FormLabel>
                 <FormControl>
                   <Input
                     {...field}
@@ -141,7 +144,7 @@ function KemitraanUser() {
             name="email"
             render={({ field }) => (
               <FormItem className="w-full">
-                <FormLabel htmlFor="input-kemitraan-email">Email</FormLabel>
+                <FormLabel htmlFor="input-kemitraan-email" className="text-[#000000]">Email</FormLabel>
                 <FormControl>
                   <Input
                     {...field}
@@ -158,7 +161,7 @@ function KemitraanUser() {
             name="nomorwa"
             render={({ field }) => (
               <FormItem className="w-full">
-                <FormLabel htmlFor="input-kemitraan-nomor">
+                <FormLabel htmlFor="input-kemitraan-nomor" className="text-[#000000]">
                   Nomor WhatsApp
                 </FormLabel>
                 <FormControl>
@@ -174,18 +177,84 @@ function KemitraanUser() {
           />
           <FormField
             control={form.control}
+            name="jeniskemitraan"
+            render={({ field }) => (
+              <FormItem className="w-full">
+                <FormLabel htmlFor="input-kemitraan-jenis" className="text-[#000000]">
+                  Jenis Kemitraan
+                </FormLabel>
+                <FormControl>
+                  <Input
+                    {...field}
+                    id="input-kemitraan-jenis"
+                    className="disabled:opacity-100"
+                  />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <FormField
+            control={form.control}
             name="deskripsi"
             render={({ field }) => (
               <FormItem className="w-full">
-                <FormLabel htmlFor="input-kemitraan-deskripsi">
+                <FormLabel htmlFor="input-kemitraan-deskripsi" className="text-[#000000]">
                   Deskripsi Kemitraan
                 </FormLabel>
                 <FormControl>
-                <Textarea
-                      {...field}
-                      id="input-kemitraan-description"
-                      className="min-h-[100px] disabled:opacity-100"
+                  <Textarea
+                    {...field}
+                    id="input-kemitraan-description"
+                    className="min-h-[100px] disabled:opacity-100"
+                  />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <FormField
+            control={form.control}
+            name="lampiran"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel htmlFor="input-lampiran" className="text-[#000000]">
+                  Lampiran (<small>Dokumen Max 500 KB</small>)
+                </FormLabel>
+                <FormControl>
+                  <>
+                    <FileInput
+                      id="input-lampiran"
+                      onChange={(e) => {
+                        const file = e.target.files[0];
+                        field.onChange(file);
+                        setFileInfo(
+                          file
+                            ? {
+                                name: file.name,
+                                size: (file.size / 1024).toFixed(2),
+                              }
+                            : null
+                        );
+                      }}
                     />
+                    {fileInfo && (
+                      <div className="mt-2 text-sm text-gray-600">
+                        <p>
+                          <span className="font-medium text-gray-800">
+                            Name:
+                          </span>{" "}
+                          {fileInfo.name}
+                        </p>
+                        <p>
+                          <span className="font-medium text-gray-800">
+                            Size:
+                          </span>{" "}
+                          {fileInfo.size} KB
+                        </p>
+                      </div>
+                    )}
+                  </>
                 </FormControl>
                 <FormMessage />
               </FormItem>
