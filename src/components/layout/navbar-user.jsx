@@ -91,9 +91,9 @@ const NavbarUser = () => {
             </DropdownMenuTrigger>
 
             <DropdownMenuContent>
-              <div className="px-3 py-2 text-[#F64C4C] cursor-pointer flex gap-2" >
+              <div className="px-3 py-2 text-[#F64C4C] cursor-pointer flex gap-2" onClick={handleLogout}>
                 <LogOut className="w-5 h-5" />
-                <p className="mt-[-0.125rem]" onClick={handleLogout}>Keluar</p>
+                <p className="mt-[-0.125rem]" >Keluar</p>
               </div>
             </DropdownMenuContent>
           </DropdownMenu>
