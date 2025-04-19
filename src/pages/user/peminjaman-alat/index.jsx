@@ -256,7 +256,7 @@ function PeminjamanAlatUser() {
             render={({ field }) => (
               <FormItem>
                 <FormLabel htmlFor="input-lampiran" className="text-[#000000]">
-                  Lampiran (<small>Dokumen Max 500 KB</small>)
+                  Lampiran <small>(Dokumen Max 500 KB) <i className="text-[#bf131d]">Opsional</i></small>
                 </FormLabel>
                 <FormControl>
                   <>
