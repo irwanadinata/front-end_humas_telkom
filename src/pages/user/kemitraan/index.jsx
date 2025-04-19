@@ -219,7 +219,7 @@ function KemitraanUser() {
             render={({ field }) => (
               <FormItem>
                 <FormLabel htmlFor="input-lampiran" className="text-[#000000]">
-                  Lampiran (<small>Dokumen Max 500 KB</small>)
+                  Lampiran <small>(Dokumen Max 500 KB)</small>
                 </FormLabel>
                 <FormControl>
                   <>
