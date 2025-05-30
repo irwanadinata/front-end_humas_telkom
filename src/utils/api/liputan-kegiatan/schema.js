@@ -15,8 +15,14 @@ export const liputanKegiatanSchema = z.object({
       (val) => val.trim().split(/\s+/).length <= 40,
       "Deskripsi maksimal 40 kata"
     ),
-  tanggal_mulai: z.string().min(1, "Tanggal mulai harus diisi"),
-  tanggal_selesai: z.string().min(1, "Tanggal selesai harus diisi"),
+   tanggal_mulai: z
+    .string()
+    .min(1, "Tanggal mulai harus diisi")
+    .transform((val) => val.slice(0, 10)),
+  tanggal_selesai: z
+    .string()
+    .min(1, "Tanggal selesai harus diisi")
+    .transform((val) => val.slice(0, 10)),
   waktu_mulai: z.string().min(1, "Waktu mulai harus diisi"),
   waktu_selesai: z.string().min(1, "Waktu selesai harus diisi"),
   tempat: z.string().min(1, "Tempat harus diisi"),

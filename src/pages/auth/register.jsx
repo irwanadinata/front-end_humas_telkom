@@ -64,7 +64,7 @@ function Register() {
           placeholder="Masukkan nama"
           name="nama"
           register={register}
-          error={errors.name?.message}
+          error={errors.nama?.message}
         />
         <InputLabel
           id="email"

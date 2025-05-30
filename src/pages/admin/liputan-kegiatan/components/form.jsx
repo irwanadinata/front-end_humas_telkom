@@ -117,7 +117,11 @@ const LiputanKegiatanForm = ({ action, id }) => {
   }, []);
 
   const onSubmit = async (data) => {
-    const editedData = { ...data };
+    const editedData = {
+      ...data,
+      tanggal_mulai: data.tanggal_mulai?.slice(0, 10),
+      tanggal_selesai: data.tanggal_selesai?.slice(0, 10),
+    };
     setProcessing(true);
 
     try {
@@ -522,56 +526,58 @@ const LiputanKegiatanForm = ({ action, id }) => {
                       <div className="flex items-center gap-3">
                         <span>{detail.lampiran}</span>
                         <a
-                          href={`${import.meta.env.VITE_BASE_URL}/uploads/${detail.lampiran}`}
+                          href={`${import.meta.env.VITE_BASE_URL}/uploads/${
+                            detail.lampiran
+                          }`}
                           target="_blank"
                           rel="noopener noreferrer"
                           className="text-sm"
                           download
                         >
-                          <ArrowDownToLine className="text-blue-700"/>
+                          <ArrowDownToLine className="text-blue-700" />
                         </a>
                       </div>
                     </div>
                   )}
                   <FormControl>
-                  {action !== "detail" && (
-                    <>
-                      <FileInput
-                        id="input-lampiran"
-                        disabled={action === "detail"}
-                        onChange={(e) => {
-                          const file = e.target.files[0];
-                          field.onChange(file);
-                          if (action !== "detail") {
-                            setFileInfo(
-                              file
-                                ? {
-                                    name: file.name,
-                                    size: (file.size / 1024).toFixed(2),
-                                  }
-                                : null
-                            );
-                          }
-                        }}
-                      />
-                      {fileInfo && (
-                        <div className="mt-2 text-sm text-gray-600">
-                          <p>
-                            <span className="font-medium text-gray-800">
-                              Name:
-                            </span>{" "}
-                            {fileInfo.name}
-                          </p>
-                          <p>
-                            <span className="font-medium text-gray-800">
-                              Size:
-                            </span>{" "}
-                            {fileInfo.size} KB
-                          </p>
-                        </div>
-                      )}
-                    </>
-                  )}
+                    {action !== "detail" && (
+                      <>
+                        <FileInput
+                          id="input-lampiran"
+                          disabled={action === "detail"}
+                          onChange={(e) => {
+                            const file = e.target.files[0];
+                            field.onChange(file);
+                            if (action !== "detail") {
+                              setFileInfo(
+                                file
+                                  ? {
+                                      name: file.name,
+                                      size: (file.size / 1024).toFixed(2),
+                                    }
+                                  : null
+                              );
+                            }
+                          }}
+                        />
+                        {fileInfo && (
+                          <div className="mt-2 text-sm text-gray-600">
+                            <p>
+                              <span className="font-medium text-gray-800">
+                                Name:
+                              </span>{" "}
+                              {fileInfo.name}
+                            </p>
+                            <p>
+                              <span className="font-medium text-gray-800">
+                                Size:
+                              </span>{" "}
+                              {fileInfo.size} KB
+                            </p>
+                          </div>
+                        )}
+                      </>
+                    )}
                   </FormControl>
                   <FormMessage />
                 </FormItem>
