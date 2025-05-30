@@ -9,8 +9,14 @@ export const peminjamanAlatSchema = z.object({
     .min(10, "Nomor WA minimal 10 digit")
     .regex(/^08\d{8,11}$/, "Nomor WA tidak valid (harus diawali 08)"),
   keperluan: z.string().min(1, "Keperluan harus diisi"),
-  tanggal_mulai: z.string().min(1, "Tanggal mulai harus diisi"),
-  tanggal_selesai: z.string().min(1, "Tanggal selesai harus diisi"),
+   tanggal_mulai: z
+    .string()
+    .min(1, "Tanggal mulai harus diisi")
+    .transform((val) => val.slice(0, 10)),
+  tanggal_selesai: z
+    .string()
+    .min(1, "Tanggal selesai harus diisi")
+    .transform((val) => val.slice(0, 10)),
   lampiran: z
     .any()
     .optional()

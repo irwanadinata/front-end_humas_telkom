@@ -107,7 +107,11 @@ const PeminjamanAlatForm = ({ action, id }) => {
   }, []);
 
   const onSubmit = async (data) => {
-    const editedData = { ...data };
+    const editedData = {
+      ...data,
+      tanggal_mulai: data.tanggal_mulai?.slice(0, 10),
+      tanggal_selesai: data.tanggal_selesai?.slice(0, 10),
+    };
     setProcessing(true);
 
     try {
