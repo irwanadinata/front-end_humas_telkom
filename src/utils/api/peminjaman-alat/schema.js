@@ -5,9 +5,10 @@ export const peminjamanAlatSchema = z.object({
   nim: z.string().min(1, "NIM harus diisi"),
   unit: z.string().min(1, "Unit/Prodi/Ormawa harus diisi"),
   nomorwa: z
-    .string()
-    .min(10, "Nomor WA minimal 10 digit")
-    .regex(/^08\d{8,11}$/, "Nomor WA tidak valid (harus diawali 08)"),
+  .string()
+  .min(10, "Nomor WA minimal 10 digit")
+  .max(14, "Nomor WA maksimal 14 digit")
+  .regex(/^08\d{8,11}$/, "Nomor WA tidak valid (harus diawali 08)"),
   keperluan: z.string().min(1, "Keperluan harus diisi"),
    tanggal_mulai: z
     .string()
