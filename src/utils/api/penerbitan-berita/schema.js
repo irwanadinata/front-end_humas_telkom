@@ -9,9 +9,10 @@ export const penerbitanBeritaSchema = z.object({
   peran: z.string().min(1, "Peran harus dipilih"),
   unit: z.string().min(1, "Unit/Prodi/Ormawa harus diisi"),
   nomorwa: z
-      .string()
-      .min(10, "Nomor WA minimal 10 digit")
-      .regex(/^08\d{8,11}$/, "Nomor WA tidak valid (harus diawali 08)"),
+    .string()
+    .min(10, "Nomor WA minimal 10 digit")
+    .max(14, "Nomor WA maksimal 14 digit")
+    .regex(/^08\d{8,11}$/, "Nomor WA tidak valid (harus diawali 08)"),
   judul: z.string().min(1, "Judul Berita harus diisi"),
   materi: z.string().min(1, "Output Materi harus dipilih"),
   media: z.string().min(1, "Media Publikasi harus dipilih"),

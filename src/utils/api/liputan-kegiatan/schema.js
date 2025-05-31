@@ -6,6 +6,7 @@ export const liputanKegiatanSchema = z.object({
   nomorwa: z
     .string()
     .min(10, "Nomor WA minimal 10 digit")
+    .max(14, "Nomor WA maksimal 14 digit")
     .regex(/^08\d{8,11}$/, "Nomor WA tidak valid (harus diawali 08)"),
   acara: z.string().min(1, "Nama acara harus diisi"),
   deskripsi: z
