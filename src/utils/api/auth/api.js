@@ -25,6 +25,10 @@ export const register = async (
     });
     return response.data;
   } catch (error) {
+    if (error.response) {
+    throw error;
+  } else {
     throw new Error("Ada data yang tidak valid");
+  }
   }
 };
