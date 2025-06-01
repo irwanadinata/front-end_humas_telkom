@@ -6,7 +6,7 @@ import { Layout } from "@/pages/auth/components/layout";
 import { Link } from "react-router-dom";
 import { register as registerUser, registerSchema } from "@/utils/api/auth";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Button } from "@/components/ui/button"
+import { Button } from "@/components/ui/button";
 import { InputLabel } from "@/components/ui/input-with-label";
 import iconEyeOpen from "@/assets/icon/icon-eye-open.svg";
 import iconEyeClose from "@/assets/icon/icon-eye-close.svg";
@@ -40,10 +40,18 @@ function Register() {
     const { nama, email, password } = data;
     try {
       await registerUser(nama, email, password);
-      Toast.fire({ icon: "success", title: "Daftar Akun Berhasil, <br/> Silahkan Login" });
+      Toast.fire({
+        icon: "success",
+        title: "Daftar Akun Berhasil, <br/> Silahkan Login",
+      });
       navigate("/");
     } catch (error) {
-      setErrorMessage(error?.response?.data?.message);
+      const errorMessage =
+        error?.response?.data?.message || "Terjadi kesalahan saat mendaftar.";
+      Toast.fire({
+        icon: "error",
+        title: errorMessage,
+      });
     }
   }
 
@@ -99,16 +107,19 @@ function Register() {
           />
         </div>
         <div className="flex justify-end mb-4">
-          <p className="text-sm">Sudah Memiliki akun? {" "}
+          <p className="text-sm">
+            Sudah Memiliki akun?{" "}
             <Link to="/" className="text-blue-500 hover:underline">
               Login
-            </Link></p>
+            </Link>
+          </p>
         </div>
         <Button
           id="btn-submit"
           aria-label="btn-submit-form"
           className="w-full h-[3 rem] bg-[#bf131d] hover:bg-[#a8393b] text-white mb-3"
-        >Register
+        >
+          Register
         </Button>
       </form>
       {errorMessage && (
